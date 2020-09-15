@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,6 +16,13 @@
 		510369F625111BC600C6E80B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 510369F425111BC600C6E80B /* LaunchScreen.storyboard */; };
 		51036A0125111BC700C6E80B /* MovieflexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51036A0025111BC700C6E80B /* MovieflexTests.swift */; };
 		51036A162511225B00C6E80B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51036A152511225B00C6E80B /* NetworkManager.swift */; };
+		51036A1E2511242000C6E80B /* SF-Mono-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 51036A1A2511242000C6E80B /* SF-Mono-Semibold.otf */; };
+		51036A1F2511242000C6E80B /* SF-Mono-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 51036A1B2511242000C6E80B /* SF-Mono-Bold.otf */; };
+		51036A202511242000C6E80B /* SF-Mono-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 51036A1C2511242000C6E80B /* SF-Mono-Regular.otf */; };
+		51036A212511242000C6E80B /* SF-Mono-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 51036A1D2511242000C6E80B /* SF-Mono-Medium.otf */; };
+		51036A232511243700C6E80B /* Profile.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51036A222511243700C6E80B /* Profile.xib */; };
+		51036A252511243B00C6E80B /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51036A242511243B00C6E80B /* Profile.swift */; };
+		51036A272511247000C6E80B /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51036A262511247000C6E80B /* ViewExtensions.swift */; };
 		C91205FC0FA3C10928883D12 /* Pods_MovieflexTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BD5FF6D0865E3085B06AE7 /* Pods_MovieflexTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +52,13 @@
 		51036A0025111BC700C6E80B /* MovieflexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieflexTests.swift; sourceTree = "<group>"; };
 		51036A0225111BC700C6E80B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51036A152511225B00C6E80B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		51036A1A2511242000C6E80B /* SF-Mono-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-Semibold.otf"; sourceTree = "<group>"; };
+		51036A1B2511242000C6E80B /* SF-Mono-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-Bold.otf"; sourceTree = "<group>"; };
+		51036A1C2511242000C6E80B /* SF-Mono-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-Regular.otf"; sourceTree = "<group>"; };
+		51036A1D2511242000C6E80B /* SF-Mono-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Mono-Medium.otf"; sourceTree = "<group>"; };
+		51036A222511243700C6E80B /* Profile.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Profile.xib; sourceTree = "<group>"; };
+		51036A242511243B00C6E80B /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		51036A262511247000C6E80B /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		681F5A8BFE46A5DC70130FBD /* Pods_Movieflex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Movieflex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8258D0866251C0EBDF5EE38A /* Pods-MovieflexTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieflexTests.debug.xcconfig"; path = "Target Support Files/Pods-MovieflexTests/Pods-MovieflexTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BB354ACDC6CC66BCEF4C3903 /* Pods-Movieflex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Movieflex.debug.xcconfig"; path = "Target Support Files/Pods-Movieflex/Pods-Movieflex.debug.xcconfig"; sourceTree = "<group>"; };
@@ -87,7 +101,6 @@
 				8258D0866251C0EBDF5EE38A /* Pods-MovieflexTests.debug.xcconfig */,
 				0B801DB931B52FBA2594BEF0 /* Pods-MovieflexTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -118,8 +131,8 @@
 				51036A0D25111E8400C6E80B /* Extensions */,
 				51036A0C25111E7C00C6E80B /* Layers */,
 				51036A0E25111E9200C6E80B /* Code */,
+				51036A18251123EE00C6E80B /* Resources */,
 				510369E625111BC200C6E80B /* AppDelegate.swift */,
-				510369F225111BC600C6E80B /* Assets.xcassets */,
 				510369F425111BC600C6E80B /* LaunchScreen.storyboard */,
 				510369F725111BC600C6E80B /* Info.plist */,
 				510369EF25111BC200C6E80B /* Movieflex.xcdatamodeld */,
@@ -153,6 +166,7 @@
 		51036A0D25111E8400C6E80B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				51036A262511247000C6E80B /* ViewExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -187,6 +201,8 @@
 		51036A1125111EC500C6E80B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				51036A222511243700C6E80B /* Profile.xib */,
+				51036A242511243B00C6E80B /* Profile.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -213,6 +229,34 @@
 				510369EC25111BC200C6E80B /* Home.storyboard */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		51036A17251123E200C6E80B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				51036A192511241000C6E80B /* SF-Mono */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		51036A18251123EE00C6E80B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				51036A17251123E200C6E80B /* Fonts */,
+				510369F225111BC600C6E80B /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		51036A192511241000C6E80B /* SF-Mono */ = {
+			isa = PBXGroup;
+			children = (
+				51036A1B2511242000C6E80B /* SF-Mono-Bold.otf */,
+				51036A1D2511242000C6E80B /* SF-Mono-Medium.otf */,
+				51036A1C2511242000C6E80B /* SF-Mono-Regular.otf */,
+				51036A1A2511242000C6E80B /* SF-Mono-Semibold.otf */,
+			);
+			path = "SF-Mono";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -299,8 +343,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51036A1F2511242000C6E80B /* SF-Mono-Bold.otf in Resources */,
 				510369F625111BC600C6E80B /* LaunchScreen.storyboard in Resources */,
+				51036A212511242000C6E80B /* SF-Mono-Medium.otf in Resources */,
 				510369F325111BC600C6E80B /* Assets.xcassets in Resources */,
+				51036A1E2511242000C6E80B /* SF-Mono-Semibold.otf in Resources */,
+				51036A232511243700C6E80B /* Profile.xib in Resources */,
+				51036A202511242000C6E80B /* SF-Mono-Regular.otf in Resources */,
 				510369EE25111BC200C6E80B /* Home.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -384,8 +433,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				51036A162511225B00C6E80B /* NetworkManager.swift in Sources */,
+				51036A252511243B00C6E80B /* Profile.swift in Sources */,
 				510369EB25111BC200C6E80B /* HomeViewController.swift in Sources */,
 				510369F125111BC200C6E80B /* Movieflex.xcdatamodeld in Sources */,
+				51036A272511247000C6E80B /* ViewExtensions.swift in Sources */,
 				510369E725111BC200C6E80B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
