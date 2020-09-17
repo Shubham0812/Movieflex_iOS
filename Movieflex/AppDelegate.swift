@@ -17,11 +17,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK:- functions for the AppDelegate
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let moviesList = UserDefaultsManager().getPopularTitlesList()
+        if (moviesList.isEmpty) {
+            NetworkManager().getPopularTitles { res, error in
+                if (error == nil) {
+                    guard let titleIds = res else { return }
+                    UserDefaultsManager().setPopularTitlesList(popularTitles: titleIds)
+                }
+            }
+        }
         return true
     }
     
-   
+    
     // MARK: - functions for CoreData
     lazy var persistentContainer: NSPersistentContainer = {
         /*
