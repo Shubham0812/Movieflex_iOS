@@ -6,7 +6,7 @@ Based on the requests that I got in my Instagram account - [**@shubham_iosdev**]
 I decided to create a UIKit based iOS app with MVVM architecture with hopes that it'll help out iOS developers in learning MVVM, and how to use it to maintain a clean and simple architecture.
 
 ## Introduction
-It's a good practice to keep a simple and organized architecture, there are various practices, techniques, patterns that are used by developers for their project, and it's perfectly fine to have your own unique architecture. 
+It's a good practice to keep a simple and organized architecture. There are various practices, techniques, patterns that are used by developers for their project, and it's perfectly fine to have your own unique architecture. 
 
 The end goal of the usage of any design, architectural patterns is usually the same -
 * Adding a new requirement should be easy.
