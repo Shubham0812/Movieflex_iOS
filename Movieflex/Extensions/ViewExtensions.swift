@@ -9,11 +9,33 @@
 import UIKit
 
 extension UIView {
+    func setCornerRadius(radius: CGFloat) {
+        self.layer.cornerRadius = radius
+    }
+    
+    func setShadow(shadowColor: UIColor, shadowOpacity: Float, shadowRadius: CGFloat, offset: CGSize) {
+        self.layer.shadowColor = shadowColor.cgColor
+        self.layer.shadowOpacity = shadowOpacity
+        self.layer.shadowRadius = shadowRadius
+        self.layer.shadowOffset = offset
+    }
+    
+    func setOpacity(to opacity: Float) {
+        self.layer.opacity = opacity
+    }
+    
+    func setBorder(with color: UIColor, _ width: CGFloat) {
+        self.layer.borderColor = color.cgColor
+        self.layer.borderWidth = width
+    }
+}
+
+extension UIView {
     @discardableResult
     func fromNib<T : UIView>() -> T? {
         guard let contentView = Bundle(for: type(of: self)).loadNibNamed(String(describing: type(of: self)),
                                                                          owner: self, options: nil)?.first as? T else {
-                                                                            return nil
+            return nil
         }
         self.addSubview(contentView)
         contentView.translatesAutoresizingMaskIntoConstraints = false

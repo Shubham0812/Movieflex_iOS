@@ -6,4 +6,10 @@
 //  Copyright © 2020 Shubham Singh. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+extension UICollectionViewCell {
+    func asNib() -> UINib {
+        return UINib(nibName: Self.description(), bundle: nil)
+    }
+}
