@@ -56,7 +56,7 @@ import UIKit
     func setupView() {
         self.layer.cornerRadius = cornerRadius
         self.layer.borderColor = borderColor.withAlphaComponent(borderAlpha).cgColor
-        self.layer.borderWidth = 4
+        self.layer.borderWidth = 2
         
         self.profileImageView.layer.cornerRadius = cornerRadius
         self.profileImageView.image = profileImage

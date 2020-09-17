@@ -42,7 +42,7 @@ struct TitlePoster: Decodable {
 
 // MARK:- Title Meta Data
 struct TitleInfo: Decodable {
-    let runningTimeInMinutes: Int
+    let runningTimeInMinutes: Int?
     let title: String
     let titleType: String
     let year: Int
@@ -57,10 +57,10 @@ struct TitleInfo: Decodable {
 }
 
 struct TitleRating: Decodable {
-    let rating: Double
-    let ratingCount: Int
-    let topRank: Int
-    let bottomRank: Int
+    let rating: Double?
+    let ratingCount: Int?
+    let topRank: Int?
+    let bottomRank: Int?
 }
 
 struct TitleMetaData: Decodable {
@@ -68,11 +68,10 @@ struct TitleMetaData: Decodable {
     let titleId: String
     let ratings: TitleRating
     let releaseDate: String
-    let certificate: String
     let genres: [String]
     
     enum CodingKeys: CodingKey {
-        case title,titleId, ratings, releaseDate, certificate, genres
+        case title,titleId, ratings, releaseDate, genres
     }
     
     init(from decoder: Decoder) throws {
@@ -80,7 +79,6 @@ struct TitleMetaData: Decodable {
         title = try container.decode(TitleInfo.self, forKey: .title)
         ratings = try container.decode(TitleRating.self, forKey: .ratings)
         releaseDate = try container.decode(String.self, forKey: .releaseDate)
-        certificate = try container.decode(String.self, forKey: .certificate)
         genres = try container.decode([String].self, forKey: .genres)
         
         titleId = container.codingPath.first!.stringValue
