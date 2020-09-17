@@ -8,6 +8,22 @@
 
 import Foundation
 
-struct UserDefaultsManager {
+
+class UserDefaultsManager {
     
+    //MARK:- getter functions
+    func getPopularTitlesList() -> [String] {
+        guard let titles = UserDefaults.standard.array(forKey: "popularTitles") as? [String]  else { return [] }
+        return titles
+    }
+    
+    //MARK:- setter functions
+    func setPopularTitlesList(popularTitles: [String]) {
+        UserDefaults.standard.set(popularTitles, forKey: "popularTitles")
+    }
+    
+    
+    func clearUserDefaults() {
+        UserDefaults.resetStandardUserDefaults()
+    }
 }

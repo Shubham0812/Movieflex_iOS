@@ -74,10 +74,6 @@ enum APIs: URLRequestConvertible  {
 
 struct NetworkManager {
     
-    static var shared: NetworkManager = {
-        return NetworkManager()
-    }()
-    
     let jsonDecoder = JSONDecoder()
     
     // functions to call the APIs
@@ -111,8 +107,9 @@ struct NetworkManager {
                 if let jsonData = try? JSONSerialization.data(withJSONObject: jsonData, options: .sortedKeys)  {
                     do {
                         let popularTitles = try jsonDecoder.decode([String].self, from: jsonData)
-                        completion(popularTitles, nil)
+                        completion(popularTitles.map { $0.components(separatedBy: "/")[2] }, nil)
                     } catch {
+                        print(error)
                         completion(nil, .decodingError)
                     }
                 } else {
@@ -133,6 +130,7 @@ struct NetworkManager {
                         let decodedData = try jsonDecoder.decode(DecodedTitleMetaData.self, from: payload)
                         completion(decodedData.titlesMetaData, nil)
                     } catch {
+                        print(error)
                         completion(nil, .decodingError)
                     }
                 } else {
