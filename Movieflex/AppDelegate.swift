@@ -18,15 +18,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK:- functions for the AppDelegate
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let moviesList = UserDefaultsManager().getPopularTitlesList()
-        if (moviesList.isEmpty) {
+        let popularList = UserDefaultsManager().getPopularTitlesList()
+        if (popularList.isEmpty) {
             NetworkManager().getPopularTitles { res, error in
                 if (error == nil) {
                     guard let titleIds = res else { return }
-                    UserDefaultsManager().setPopularTitlesList(popularTitles: titleIds)
+                    UserDefaultsManager().setPopularTitlesList(titles: titleIds)
                 }
             }
         }
+        
+        let comingSoonList = UserDefaultsManager().getComingSoonTitlesList()
+        if (comingSoonList.isEmpty) {
+            NetworkManager().getComingSoonTitles { res, error in
+                if (error == nil) {
+                    guard let titleIds = res else { return }
+                    UserDefaultsManager().setComingSoonitlesList(titles: titleIds)
+                }
+            }
+        }
+
         return true
     }
     

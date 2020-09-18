@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import Alamofire
-import AlamofireImage
 
 class LargeTitleCollectionViewCell: UICollectionViewCell {
     
@@ -26,7 +24,7 @@ class LargeTitleCollectionViewCell: UICollectionViewCell {
     
     let dissolveDuration: TimeInterval = 0.2
     let cellHeight: CGFloat = 240
-    
+    var shimmer: ShimmerLayer = ShimmerLayer()
     
     // MARK:- lifeCycle methods for the cell
     override func awakeFromNib() {
@@ -38,14 +36,24 @@ class LargeTitleCollectionViewCell: UICollectionViewCell {
         self.moviePosterImageView.setBorder(with: UIColor.label.withAlphaComponent(0.15), 2)
     }
     
+    // MARK:- functions for the cell
     func setupCell(viewModel: MovieViewModel) {
+        shimmer.removeLayerIfExists(self)
+        
         self.movieTitleLabel.text = viewModel.movieTitle
         self.movieGenreLabel.text = viewModel.movieGenres
         
-        self.moviePosterImageView.af_setImage(withURL: viewModel.moviePosterUrl, placeholderImage: UIImage(named: "batman"), progressQueue: DispatchQueue.global(qos: .userInteractive), imageTransition: .crossDissolve(dissolveDuration)) { res in
-            
+        shimmer = ShimmerLayer(for: self.moviePosterImageView, cornerRadius: 12)
+        self.layer.addSublayer(shimmer)
         
-            print(res, res.data )
+        DispatchQueue.global().async {
+            viewModel.moviePosterImage.bind {
+                guard let posterImage = $0 else { return }
+                DispatchQueue.main.async { [unowned self] in
+                    moviePosterImageView.image = posterImage
+                    shimmer.removeFromSuperlayer()
+                }
+            }
         }
     }
 }

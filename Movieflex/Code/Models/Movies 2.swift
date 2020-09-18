@@ -111,3 +111,4 @@ struct DecodedTitleMetaData: Decodable {
         titlesMetaData = tempArray
     }
 }
+

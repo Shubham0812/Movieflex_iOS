@@ -13,3 +13,9 @@ extension UICollectionViewCell {
         return UINib(nibName: Self.description(), bundle: nil)
     }
 }
+
+extension UICollectionReusableView {
+    func aNib() -> UINib {
+        return UINib(nibName: Self.description(), bundle: nil)
+    }
+}

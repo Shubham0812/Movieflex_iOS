@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fTO-R2-Qzo">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
@@ -32,25 +32,25 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MfX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhg-AO-EjN">
-                                                <rect key="frame" x="24" y="24" width="64.5" height="42"/>
+                                                <rect key="frame" x="24" y="24" width="72.333333333333329" height="36"/>
                                                 <fontDescription key="fontDescription" name="JosefinSlab-Bold" family="Josefin Slab" pointSize="36"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hey Shubham!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RVS-Wd-KFN">
-                                                <rect key="frame" x="24" y="82" width="171.5" height="30.5"/>
+                                                <rect key="frame" x="24" y="76" width="193" height="31.333333333333329"/>
                                                 <fontDescription key="fontDescription" name="SFMono-Medium" family="SF Mono" pointSize="26"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Popular Titles For You" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hUK-BA-N8F">
-                                                <rect key="frame" x="24" y="144.5" width="215.5" height="29"/>
+                                                <rect key="frame" x="23.999999999999986" y="444.33333333333331" width="215.66666666666663" height="29"/>
                                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="22"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="OgJ-Na-phj">
-                                                <rect key="frame" x="24" y="189.5" width="366" height="240"/>
+                                                <rect key="frame" x="24" y="489.33333333333326" width="366" height="240"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="240" id="Ks2-9T-EPg"/>
@@ -64,7 +64,7 @@
                                                 <cells/>
                                             </collectionView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bTt-Ol-oLw" customClass="Profile" customModule="Movieflex" customModuleProvider="target">
-                                                <rect key="frame" x="338" y="19" width="52" height="52"/>
+                                                <rect key="frame" x="338" y="16" width="52" height="52"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="52" id="obJ-sD-wQy"/>
@@ -77,20 +77,46 @@
                                                     <userDefinedRuntimeAttribute type="image" keyPath="profileImage" value="user"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vLs-Mo-YDD">
+                                                <rect key="frame" x="24" y="184.33333333333337" width="366" height="240"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="240" id="CtL-zw-Qy0"/>
+                                                </constraints>
+                                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vsj-nh-8hD">
+                                                    <size key="itemSize" width="128" height="128"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <cells/>
+                                            </collectionView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Watch Out For These Movies" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kEh-7h-PWa">
+                                                <rect key="frame" x="24" y="139.33333333333334" width="289.66666666666669" height="29"/>
+                                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="22"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
+                                            <constraint firstItem="kEh-7h-PWa" firstAttribute="leading" secondItem="xkQ-zr-ScY" secondAttribute="leading" constant="24" id="04I-bJ-l3j"/>
+                                            <constraint firstAttribute="trailing" secondItem="vLs-Mo-YDD" secondAttribute="trailing" constant="24" id="1JV-Cn-cOV"/>
+                                            <constraint firstItem="kEh-7h-PWa" firstAttribute="leading" secondItem="xkQ-zr-ScY" secondAttribute="leading" constant="24" id="2AC-bh-FzF"/>
                                             <constraint firstItem="bTt-Ol-oLw" firstAttribute="centerY" secondItem="yhg-AO-EjN" secondAttribute="centerY" id="5Rt-5E-GEe"/>
                                             <constraint firstAttribute="trailing" secondItem="bTt-Ol-oLw" secondAttribute="trailing" constant="24" id="9PH-fc-8ni"/>
                                             <constraint firstItem="yhg-AO-EjN" firstAttribute="top" secondItem="xkQ-zr-ScY" secondAttribute="top" constant="24" id="CIf-4m-he3"/>
+                                            <constraint firstItem="kEh-7h-PWa" firstAttribute="top" secondItem="RVS-Wd-KFN" secondAttribute="bottom" constant="32" id="EKF-DW-wgg"/>
                                             <constraint firstItem="RVS-Wd-KFN" firstAttribute="top" secondItem="yhg-AO-EjN" secondAttribute="bottom" constant="16" id="GR9-Vo-NSp"/>
                                             <constraint firstItem="hUK-BA-N8F" firstAttribute="leading" secondItem="xkQ-zr-ScY" secondAttribute="leading" constant="24" id="HUW-8O-LIg"/>
-                                            <constraint firstItem="hUK-BA-N8F" firstAttribute="top" secondItem="RVS-Wd-KFN" secondAttribute="bottom" constant="32" id="Mi8-9V-EI1"/>
                                             <constraint firstItem="OgJ-Na-phj" firstAttribute="top" secondItem="hUK-BA-N8F" secondAttribute="bottom" constant="16" id="OAV-v1-Rkr"/>
                                             <constraint firstItem="OgJ-Na-phj" firstAttribute="leading" secondItem="xkQ-zr-ScY" secondAttribute="leading" constant="24" id="ZZl-28-YXt"/>
+                                            <constraint firstItem="vLs-Mo-YDD" firstAttribute="top" secondItem="kEh-7h-PWa" secondAttribute="bottom" constant="16" id="ccO-k0-XPa"/>
+                                            <constraint firstItem="vLs-Mo-YDD" firstAttribute="leading" secondItem="xkQ-zr-ScY" secondAttribute="leading" constant="24" id="eFM-4u-DtC"/>
                                             <constraint firstAttribute="trailing" secondItem="OgJ-Na-phj" secondAttribute="trailing" constant="24" id="f9N-16-ofP"/>
                                             <constraint firstItem="RVS-Wd-KFN" firstAttribute="leading" secondItem="xkQ-zr-ScY" secondAttribute="leading" constant="24" id="nuH-JY-Est"/>
                                             <constraint firstItem="yhg-AO-EjN" firstAttribute="leading" secondItem="xkQ-zr-ScY" secondAttribute="leading" constant="24" id="oWx-mc-UFd"/>
+                                            <constraint firstItem="hUK-BA-N8F" firstAttribute="top" secondItem="vLs-Mo-YDD" secondAttribute="bottom" constant="20" id="rpV-36-aSF"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -115,6 +141,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="2CE-tz-qQG"/>
                     <connections>
+                        <outlet property="comingSoonMoviesCollectionView" destination="vLs-Mo-YDD" id="Nsa-G8-679"/>
                         <outlet property="popularTitlesCollectionView" destination="OgJ-Na-phj" id="TGN-zR-e4P"/>
                         <outlet property="userImage" destination="bTt-Ol-oLw" id="oB5-yD-UBJ"/>
                     </connections>

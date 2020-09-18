@@ -25,7 +25,7 @@ final class ShimmerLayer: CAGradientLayer {
     init(for view: UIView,cornerRadius: CGFloat) {
         super.init()
         let gradientColorOne = UIColor.systemBackground.withAlphaComponent(0.2).cgColor
-        let gradientColorTwo = UIColor.systemBackground.withAlphaComponent(0.5).cgColor
+        let gradientColorTwo = UIColor.label.withAlphaComponent(0.05).cgColor
         
         self.frame = view.bounds
         self.startPoint = CGPoint(x: 0.0, y: 1.0)

@@ -11,8 +11,9 @@ import XCTest
 
 class MovieflexTests: XCTestCase {
     
+    let handler = FileHandler()
     var movieListVM: MovieListViewModel  {
-        return MovieListViewModel(defaultsManager: UserDefaultsManager(), networkManager: NetworkManager())
+        return MovieListViewModel(defaultsManager: UserDefaultsManager(), networkManager: NetworkManager(), handler: FileHandler())
     }
     
     override func setUpWithError() throws {
@@ -24,9 +25,20 @@ class MovieflexTests: XCTestCase {
     
     // MovieListViewModel Tests
     func testPopularTitlesFetch() {
-        movieListVM.getPopularMovieTitles(offset: 0, limit: 10) { res in
-            print("test", res)
-            precondition(!res!.isEmpty, "Popular movies array is empty")
+        movieListVM.popularMovies.bind {
+            guard let movieTitles = $0 else { return }
+            assert(!movieTitles.isEmpty)
         }
+    }
+    
+    
+    // FileManager
+    func testDocumentsDirectory() {
+        print(handler.documentsDirectory)
+        assert(!handler.documentsDirectory.absoluteString.isEmpty)
+    }
+    
+    func testContentsOfDocumentDirectory() {
+        assert(handler.flushDocumentsDirectory() == true)
     }
 }
