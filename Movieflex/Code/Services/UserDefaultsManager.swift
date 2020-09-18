@@ -17,11 +17,19 @@ class UserDefaultsManager {
         return titles
     }
     
-    //MARK:- setter functions
-    func setPopularTitlesList(popularTitles: [String]) {
-        UserDefaults.standard.set(popularTitles, forKey: "popularTitles")
+    func getComingSoonTitlesList() -> [String] {
+        guard let titles = UserDefaults.standard.array(forKey: "comingSoonTitles") as? [String]  else { return [] }
+        return titles
     }
     
+    //MARK:- setter functions
+    func setPopularTitlesList(titles: [String]) {
+        UserDefaults.standard.set(titles, forKey: "popularTitles")
+    }
+    
+    func setComingSoonitlesList(titles: [String]) {
+        UserDefaults.standard.set(titles, forKey: "comingSoonTitles")
+    }
     
     func clearUserDefaults() {
         UserDefaults.resetStandardUserDefaults()
