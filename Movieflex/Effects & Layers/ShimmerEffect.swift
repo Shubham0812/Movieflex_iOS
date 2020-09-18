@@ -24,8 +24,8 @@ final class ShimmerLayer: CAGradientLayer {
     /// cornerRadius - determines the  cornerRadius of the gradientLayer
     init(for view: UIView,cornerRadius: CGFloat) {
         super.init()
-        let gradientColorOne = UIColor.systemGray.withAlphaComponent(0.9).cgColor
-        let gradientColorTwo = UIColor.systemGray.withAlphaComponent(0.75).cgColor
+        let gradientColorOne = UIColor.systemBackground.withAlphaComponent(0.2).cgColor
+        let gradientColorTwo = UIColor.systemBackground.withAlphaComponent(0.5).cgColor
         
         self.frame = view.bounds
         self.startPoint = CGPoint(x: 0.0, y: 1.0)
@@ -34,6 +34,10 @@ final class ShimmerLayer: CAGradientLayer {
         self.locations = [0.0, 0.5, 1.0]
         self.position = view.center
         self.cornerRadius = cornerRadius
+        
+        DispatchQueue.main.async { [unowned self] in 
+            startAnimation()
+        }
     }
     
     
