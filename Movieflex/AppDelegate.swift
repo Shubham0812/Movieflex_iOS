@@ -10,6 +10,9 @@ import UIKit
 import CoreData
 
 @UIApplicationMain
+
+// If the API Response is 429 -> Create a new token with your credentials here -https://rapidapi.com/apidojo/api/imdb8/ . Replace the apiKey and the APIs will work again
+
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK:- variables for the AppDelegate
