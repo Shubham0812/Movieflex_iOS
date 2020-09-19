@@ -28,12 +28,12 @@ class HomeViewController: UIViewController {
         // popularTitles
         self.popularTitlesCollectionView.delegate = self
         self.popularTitlesCollectionView.dataSource = self
-        self.popularTitlesCollectionView.register(LargeTitleCollectionViewCell().asNib(), forCellWithReuseIdentifier: LargeTitleCollectionViewCell.description())
+        self.popularTitlesCollectionView.register(TitleCollectionViewCell().asNib(), forCellWithReuseIdentifier: TitleCollectionViewCell.description())
         
         // comingSoon
         self.comingSoonMoviesCollectionView.delegate = self
         self.comingSoonMoviesCollectionView.dataSource = self
-        self.comingSoonMoviesCollectionView.register(TitleCollectionViewCell().asNib(), forCellWithReuseIdentifier: TitleCollectionViewCell.description())
+        self.comingSoonMoviesCollectionView.register(LargeTitleCollectionViewCell().asNib(), forCellWithReuseIdentifier: LargeTitleCollectionViewCell.description())
         
         
         self.movieListViewModel = MovieListViewModel(defaultsManager: UserDefaultsManager(), networkManager: NetworkManager(), handler: FileHandler())
@@ -42,7 +42,7 @@ class HomeViewController: UIViewController {
             self.popularTitlesCollectionView.reloadData()
         }
         
-        self.movieListViewModel.comingSoonMovies.bind { _ in
+        self.movieListViewModel.comingSoonMovies.bind { movies in
             self.comingSoonMoviesCollectionView.reloadData()
         }
         
@@ -74,12 +74,12 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if (collectionView == popularTitlesCollectionView) {
             guard let movieViewModels =  movieListViewModel.popularMovies.value else { return UICollectionViewCell() }
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LargeTitleCollectionViewCell.description(), for: indexPath) as? LargeTitleCollectionViewCell {
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleCollectionViewCell.description(), for: indexPath) as? TitleCollectionViewCell {
                 cell.setupCell(viewModel: movieViewModels[indexPath.item])
                 return cell
             }
         } else {
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleCollectionViewCell.description(), for: indexPath) as? TitleCollectionViewCell {
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LargeTitleCollectionViewCell.description(), for: indexPath) as? LargeTitleCollectionViewCell {
                 guard let movieViewModels =  movieListViewModel.comingSoonMovies.value else { return UICollectionViewCell() }
                 cell.setupCell(viewModel: movieViewModels[indexPath.item])
                 return cell
@@ -88,14 +88,14 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         fatalError()
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if (collectionView == popularTitlesCollectionView) {
-            guard let movieViewModels =  movieListViewModel.popularMovies.value else { fatalError() }
-            if (indexPath.item == movieViewModels.count - 1) {
-                self.movieListViewModel.getMoreTitles()
-            }
-        }
-    }
+    //    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    //        if (collectionView == popularTitlesCollectionView) {
+    //            guard let movieViewModels =  movieListViewModel.popularMovies.value else { fatalError() }
+    //            if (indexPath.item == movieViewModels.count - 1) {
+    ////                self.movieListViewModel.getMoreTitles(type: )
+    //            }
+    //        }
+    //    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if (collectionView == popularTitlesCollectionView) {
@@ -106,7 +106,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             
             let adjustedWidth = collectionViewWidth - (flowLayout.minimumLineSpacing * (columns - 1))
             let width = floor(adjustedWidth * 1.25 / columns)
-            return CGSize(width: width, height: LargeTitleCollectionViewCell().cellHeight)
+            return CGSize(width: width, height: TitleCollectionViewCell().cellHeight)
         } else {
             let columns: CGFloat = 1
             

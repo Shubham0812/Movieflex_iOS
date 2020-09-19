@@ -9,6 +9,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Raleway-SemiBold.ttf">
+            <string>Raleway-SemiBold</string>
+        </array>
         <array key="SF-Mono-Medium.otf">
             <string>SFMono-Medium</string>
         </array>
@@ -17,59 +20,68 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="LargeTitleCollectionViewCell" customModule="Movieflex" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="140" height="240"/>
+            <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="140" height="240"/>
+                <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRc-yc-6Ij">
-                        <rect key="frame" x="0.0" y="0.0" width="140" height="240"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jrn-ei-cz3">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="280"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fW6-y2-ehu">
-                                <rect key="frame" x="0.0" y="0.0" width="140" height="180"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FAa-4L-GAG">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="210"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Batman" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gh0-DH-ccO">
-                                <rect key="frame" x="0.0" y="184" width="90.5" height="23"/>
-                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Batman" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Jv-tm-Odh">
+                                <rect key="frame" x="0.0" y="218" width="115" height="23.5"/>
+                                <fontDescription key="fontDescription" name="Raleway-SemiBold" family="Raleway" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thriller, Adventure" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jbg-NH-rRK">
-                                <rect key="frame" x="0.0" y="209" width="112.5" height="16"/>
-                                <fontDescription key="fontDescription" name="SFMono-Medium" family="SF Mono" pointSize="14"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l0b-7x-Pju">
+                                <rect key="frame" x="0.0" y="243.5" width="46.5" height="18"/>
+                                <fontDescription key="fontDescription" name="SFMono-Medium" family="SF Mono" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFp-fJ-S07">
+                                <rect key="frame" x="383.5" y="243.5" width="46.5" height="18"/>
+                                <fontDescription key="fontDescription" name="SFMono-Medium" family="SF Mono" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="gh0-DH-ccO" firstAttribute="top" secondItem="fW6-y2-ehu" secondAttribute="bottom" constant="4" id="BaL-8m-GdQ"/>
-                            <constraint firstItem="jbg-NH-rRK" firstAttribute="leading" secondItem="fRc-yc-6Ij" secondAttribute="leading" id="I14-Y4-6E9"/>
-                            <constraint firstItem="gh0-DH-ccO" firstAttribute="leading" secondItem="fRc-yc-6Ij" secondAttribute="leading" id="IJO-ec-LSz"/>
-                            <constraint firstItem="jbg-NH-rRK" firstAttribute="top" secondItem="gh0-DH-ccO" secondAttribute="bottom" constant="2" id="Vp5-XH-igL"/>
-                            <constraint firstItem="fW6-y2-ehu" firstAttribute="height" secondItem="fRc-yc-6Ij" secondAttribute="height" multiplier="0.75" id="dFB-UY-yPy"/>
-                            <constraint firstAttribute="trailing" secondItem="fW6-y2-ehu" secondAttribute="trailing" id="dwT-an-0de"/>
-                            <constraint firstItem="fW6-y2-ehu" firstAttribute="top" secondItem="fRc-yc-6Ij" secondAttribute="top" id="gdL-OB-0go"/>
-                            <constraint firstItem="fW6-y2-ehu" firstAttribute="leading" secondItem="fRc-yc-6Ij" secondAttribute="leading" id="nwa-PD-0Hv"/>
+                            <constraint firstItem="l0b-7x-Pju" firstAttribute="top" secondItem="7Jv-tm-Odh" secondAttribute="bottom" constant="2" id="1pR-cE-NVX"/>
+                            <constraint firstItem="FAa-4L-GAG" firstAttribute="leading" secondItem="jrn-ei-cz3" secondAttribute="leading" id="4Vd-Pt-U3c"/>
+                            <constraint firstItem="7Jv-tm-Odh" firstAttribute="leading" secondItem="jrn-ei-cz3" secondAttribute="leading" id="9fP-3N-V3E"/>
+                            <constraint firstItem="7Jv-tm-Odh" firstAttribute="top" secondItem="FAa-4L-GAG" secondAttribute="bottom" constant="8" id="Clb-xm-lAD"/>
+                            <constraint firstItem="l0b-7x-Pju" firstAttribute="leading" secondItem="jrn-ei-cz3" secondAttribute="leading" id="GAW-Gf-wrc"/>
+                            <constraint firstAttribute="trailing" secondItem="RFp-fJ-S07" secondAttribute="trailing" constant="20" id="H17-A1-QFL"/>
+                            <constraint firstAttribute="trailing" secondItem="FAa-4L-GAG" secondAttribute="trailing" id="Kqr-Vy-OMw"/>
+                            <constraint firstItem="FAa-4L-GAG" firstAttribute="top" secondItem="jrn-ei-cz3" secondAttribute="top" id="Pc0-2s-ImO"/>
+                            <constraint firstItem="FAa-4L-GAG" firstAttribute="height" secondItem="jrn-ei-cz3" secondAttribute="height" multiplier="0.75" id="ZIL-9K-BBj"/>
+                            <constraint firstItem="RFp-fJ-S07" firstAttribute="top" secondItem="l0b-7x-Pju" secondAttribute="top" id="pKl-5i-Bv7"/>
                         </constraints>
                     </view>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="fRc-yc-6Ij" secondAttribute="bottom" id="GY7-Ly-HcF"/>
-                <constraint firstItem="fRc-yc-6Ij" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Qio-Y7-GrA"/>
-                <constraint firstItem="fRc-yc-6Ij" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="fxa-eT-fYI"/>
-                <constraint firstAttribute="trailing" secondItem="fRc-yc-6Ij" secondAttribute="trailing" id="qXY-wt-LcD"/>
+                <constraint firstAttribute="bottom" secondItem="jrn-ei-cz3" secondAttribute="bottom" id="3TP-Uu-JWm"/>
+                <constraint firstAttribute="trailing" secondItem="jrn-ei-cz3" secondAttribute="trailing" id="gYG-SR-63t"/>
+                <constraint firstItem="jrn-ei-cz3" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="jtn-gI-I8N"/>
+                <constraint firstItem="jrn-ei-cz3" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="kCp-Kq-0h0"/>
             </constraints>
             <connections>
-                <outlet property="containerView" destination="fRc-yc-6Ij" id="OI8-K8-w4a"/>
-                <outlet property="movieGenreLabel" destination="jbg-NH-rRK" id="njd-uw-Uhw"/>
-                <outlet property="moviePosterImageView" destination="fW6-y2-ehu" id="1ZT-ma-hHQ"/>
-                <outlet property="movieTitleLabel" destination="gh0-DH-ccO" id="BQz-vH-RS5"/>
+                <outlet property="containerView" destination="jrn-ei-cz3" id="Njg-cX-zLd"/>
+                <outlet property="movieGenreLabel" destination="l0b-7x-Pju" id="Gsm-iq-eWQ"/>
+                <outlet property="moviePosterImageView" destination="FAa-4L-GAG" id="GFr-cL-Ofv"/>
+                <outlet property="movieReleaseLabel" destination="RFp-fJ-S07" id="bb1-G8-GZU"/>
+                <outlet property="movieTitleLabel" destination="7Jv-tm-Odh" id="5nD-jk-w9r"/>
             </connections>
-            <point key="canvasLocation" x="141" y="131"/>
+            <point key="canvasLocation" x="142" y="96"/>
         </collectionViewCell>
     </objects>
     <resources>
