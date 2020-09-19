@@ -26,7 +26,7 @@ enum APIs: URLRequestConvertible  {
     
     // MARK:- variables
     static let endpoint = URL(string: "https://imdb8.p.rapidapi.com")!
-    static let apiKey = "a748ca4d1fmshc734cfe79d4afb2p1eb669jsnb351ee595ac1"
+    static let apiKey = "900b3906b7mshf8022684541b5cbp120f12jsn83c43a13c786"
     static let apiHost = "imdb8.p.rapidapi.com"
     
     var path: String {
@@ -84,7 +84,7 @@ struct NetworkManager {
     let imageCompressionScale: CGFloat = 0.25
     
     // functions to call the APIs
-    func getTitlesAutocomplete(query: String, completion: @escaping([Title]?, APIError? ) -> ()) {
+    func getTitlesAutocomplete(query: String, completion: @escaping([AutoCompleteTitle]?, APIError? ) -> ()) {
         Alamofire.request(APIs.titleautocomplete(query: query)).validate().responseJSON { json in
             switch json.result {
             case .failure:
@@ -92,9 +92,10 @@ struct NetworkManager {
             case .success(let jsonData):
                 if let payload = jsonData as? [String:Any], let arrayData = payload["d"], let jsonData = try? JSONSerialization.data(withJSONObject: arrayData, options: .sortedKeys)  {
                     do {
-                        let titles = try jsonDecoder.decode([Title].self, from: jsonData)
+                        let titles = try jsonDecoder.decode([AutoCompleteTitle].self, from: jsonData)
                         completion(titles, nil)
                     } catch {
+                        print(error)
                         completion(nil, .decodingError)
                     }
                 } else {
@@ -116,6 +117,7 @@ struct NetworkManager {
                         let popularTitles = try jsonDecoder.decode([String].self, from: jsonData)
                         completion(popularTitles.map { $0.components(separatedBy: "/")[2] }, nil)
                     } catch {
+                        print(error)
                         completion(nil, .decodingError)
                     }
                 } else {
@@ -137,6 +139,7 @@ struct NetworkManager {
                         let popularTitles = try jsonDecoder.decode([String].self, from: jsonData)
                         completion(popularTitles.map { $0.components(separatedBy: "/")[2] }, nil)
                     } catch {
+                        print(error)
                         completion(nil, .decodingError)
                     }
                 } else {
@@ -178,6 +181,7 @@ struct NetworkManager {
                     try compressedData.write(to: fileHandler.getPathForImage(titleId: titleId))
                     completion(fileHandler.getPathForImage(titleId: titleId), nil)
                 } catch {
+                    print(error)
                     completion(nil, .decodingError)
                 }
             }

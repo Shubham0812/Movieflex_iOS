@@ -8,14 +8,15 @@
 
 import Foundation
 
-struct Title: Decodable {
+// Movie Search
+struct AutoCompleteTitle: Decodable {
     let id: String
     let name: String
-    let type: String
+    let type: String?
     let rank: Int
     let starring: String
     let poster: TitlePoster
-    let year: Int
+    let year: Int?
     
     private enum CodingKeys: String, CodingKey {
         case id = "id"

@@ -52,7 +52,6 @@ struct MovieViewModel {
     
     init(meta: TitleMetaData?, handler: FileHandler = FileHandler(), networkManager: NetworkManager = NetworkManager()) {
         guard let meta = meta else {
-            
             self.titleInfo = TitleInfo(runningTimeInMinutes: nil, title: "", titleType: "", year: 0, image: TitleInfo.TitlePoster(height: 0, width: 0, url: ""))
             self.id = ""
             self.rating = TitleRating(rating: nil, ratingCount: nil, topRank: nil, bottomRank: nil)
@@ -95,6 +94,11 @@ struct MovieViewModel {
 
 
 struct MovieListViewModel {
+    
+    enum MovieType {
+        case popular
+        case comingSoon
+    }
     
     // MARK:- variable for the viewModel
     let defaultsManager: UserDefaultsManager
@@ -149,9 +153,18 @@ struct MovieListViewModel {
 
 extension MovieListViewModel {
     
-    func getMoreTitles() {
-        print("Get moreeee")
-    }
+//    func getMoreTitles(type: MovieType) {
+//        if (type == .comingSoon) {
+//            let moviesList = defaultsManager.getComingSoonTitlesList()
+//            guard let comingSoonTitles = self.comingSoonMovies.value else { return }
+//            let titleIds = moviesList[comingSoonTitles.count ..< comingSoonTitles + limit]
+//
+//            networkManager.getTitlesMetaData(titleIds: Array(titleIds)) { res, error in
+//                guard let titlesMetaData = res else { return }
+//                self.comingSoonMovies.value = self.comingSoonMovies.value + titlesMetaData.map { MovieViewModel(meta: $0)}
+//            }
+//        }
+//    }
 }
 
 
