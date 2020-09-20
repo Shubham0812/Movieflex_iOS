@@ -27,7 +27,7 @@ struct MovieViewModel {
     
     let readableFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "DD MMM yy"
+        formatter.dateFormat = "yyyy"
         return formatter
     }()
     
@@ -37,6 +37,8 @@ struct MovieViewModel {
     }
     
     var moviePosterImage: BoxBind<UIImage?> = BoxBind(nil)
+    var isFavorite: BoxBind<Bool?> = BoxBind(nil)
+    
     
     var movieTitle: String {
         titleInfo.title
@@ -50,9 +52,20 @@ struct MovieViewModel {
         }
     }
     
+    var movieRunTime: String {
+        guard let runningTime = self.titleInfo.runningTimeInMinutes else { return "" }
+        let hours = runningTime / 60
+        let minutes = runningTime % 60
+        if (hours > 0) {
+            return "\(hours)h \(minutes)m"
+        } else {
+            return "\(minutes)m"
+        }
+    }
+    
     init(meta: TitleMetaData?, handler: FileHandler = FileHandler(), networkManager: NetworkManager = NetworkManager()) {
         guard let meta = meta else {
-            self.titleInfo = TitleInfo(runningTimeInMinutes: nil, title: "", titleType: "", year: 0, image: TitleInfo.TitlePoster(height: 0, width: 0, url: ""))
+            self.titleInfo = TitleInfo(runningTimeInMinutes: nil, title: "", titleType: "", year: 0, image: TitlePoster(height: 0, width: 0, url: ""))
             self.id = ""
             self.rating = TitleRating(rating: nil, ratingCount: nil, topRank: nil, bottomRank: nil)
             self.genres = []
@@ -89,7 +102,6 @@ struct MovieViewModel {
             }
         }
     }
-    
 }
 
 
@@ -110,6 +122,7 @@ struct MovieListViewModel {
     
     var popularMovies: BoxBind<[MovieViewModel]?> = BoxBind([MovieViewModel](repeating: MovieViewModel(meta: nil), count: 10))
     var comingSoonMovies: BoxBind<[MovieViewModel]?> = BoxBind([MovieViewModel](repeating: MovieViewModel(meta: nil), count: 10))
+    var favoriteMovies: BoxBind<[MovieViewModel]?> = BoxBind([MovieViewModel](repeating: MovieViewModel(meta: nil), count: 10))
     
     var fetchingData: BoxBind<(Bool, Int)> = BoxBind((false, 10))
     
@@ -121,8 +134,10 @@ struct MovieListViewModel {
         self.fileHandler = handler
         
         self.fetchingData.value = (true, limit)
+        
         self.getPopularMovieTitles(offset: offset, limit: limit)
         self.getComingSoonTitles(offset: offset, limit: limit)
+        self.getFavorites()
     }
     
     // MARK:- functions for the viewModel
@@ -145,7 +160,19 @@ struct MovieListViewModel {
             let titleIds = moviesList[offset..<limit]
             networkManager.getTitlesMetaData(titleIds: Array(titleIds)) { res, error in
                 guard let titlesMetaData = res else { return }
-                self.comingSoonMovies.value = titlesMetaData.map { MovieViewModel(meta: $0)}
+                self.comingSoonMovies.value = titlesMetaData.map { MovieViewModel(meta: $0) }
+            }
+        }
+    }
+    
+    func getFavorites() {
+        let favorties = defaultsManager.getFavoriteMovies()
+        if (favorties.isEmpty) {
+            
+        } else {
+            networkManager.getTitlesMetaData(titleIds: Array(favorties)) { res, error in
+                guard let titlesMetaData = res else { return }
+                self.favoriteMovies.value = titlesMetaData.map { MovieViewModel(meta: $0)}
             }
         }
     }
@@ -165,6 +192,15 @@ extension MovieListViewModel {
 //            }
 //        }
 //    }
+    
+    func favoriteRemoved(for model: MovieViewModel) {
+        self.defaultsManager.removeMovieFromFavorites(titleId: model.id, favorites: defaultsManager.getFavoriteMovies())
+        guard let viewModels = self.favoriteMovies.value else { return }
+        let newModels = viewModels.filter( {
+            $0.id != model.id
+        })
+        self.favoriteMovies.value = newModels
+    }
 }
 
 

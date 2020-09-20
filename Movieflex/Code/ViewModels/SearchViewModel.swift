@@ -8,60 +8,60 @@
 
 import UIKit
 
-
 struct MovieSearchViewModel {
     
     let fileHandler: FileHandler
     let networkManager: NetworkManager
-
-    let id: String
-    let movieName: String
-    let movieType: String
-    let rank: Int
-    let stars: [String]
-    let year: String
-    let poster: TitlePoster
+    let defaultsManager: UserDefaultsManager
     
-    let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-DD-MM"
-        return formatter
-    }()
+//    var searchedTitles:  BoxBind<[MovieViewModel]?> = BoxBind(nil)
+    var searchedTitles:  BoxBind<[MovieViewModel]?> = BoxBind([MovieViewModel](repeating: MovieViewModel(meta: nil), count: 10))
+    var debounceTimer: BoxBind<Timer?> = BoxBind(nil)
     
-    let readableFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "DD MMM yy"
-        return formatter
-    }()
-    
-    var moviePosterUrl: URL {
-        guard let url = URL(string: poster.url) else { return URL(string: "")! }
-        return url
-    }
-    
-    var moviePosterImage: BoxBind<UIImage?> = BoxBind(nil)
-    
-    
-    init(title: AutoCompleteTitle, handler: FileHandler, networkManager: NetworkManager) {
-        self.id = title.id
-        self.movieName = title.name
-        self.rank = title.rank
-        self.stars = title.starring.components(separatedBy: ",")
-        
-        if let movieType = title.type {
-            self.movieType = movieType
-        } else {
-            self.movieType = ""
-        }
-        
-        if let year = title.year {
-            self.year = "\(year)"
-        } else {
-            self.year = ""
-        }
-        
-        self.poster = title.poster
+    init(handler:FileHandler, networkManager: NetworkManager, defaultsManager: UserDefaultsManager) {
         self.fileHandler = handler
         self.networkManager = networkManager
+        self.defaultsManager = defaultsManager
+    }
+    
+    func getTitlesFromSearch(query: String) {
+        debounceTimer.value?.invalidate()
+        debounceTimer.value =  Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+            print("query", query)
+            self.searchedTitles.value = [MovieViewModel](repeating: MovieViewModel(meta: nil), count: 5)
+            self.networkManager.getTitlesFromSearch(query: query) { res, error in
+                guard let titleIds = res else {
+                    print(error as Any)
+                    self.searchedTitles.value = nil
+                    return
+                }
+                networkManager.getTitlesMetaData(titleIds: titleIds) { res, error in
+                    guard let titlesMetaData = res else {
+                        self.searchedTitles.value = nil
+                        return
+                    }
+                    self.searchedTitles.value = titlesMetaData.map { MovieViewModel(meta: $0)}
+                }
+            }
+        }
+    }
+    
+    func checkIfFavorite(titleId: String) -> Bool {
+        if (defaultsManager.checkIfFavorite(titleId: titleId)) {
+            return true
+        } else  {
+            return false
+        }
+    }
+}
+
+extension MovieSearchViewModel {
+    func likePressed(titleId: String) -> Bool {
+        let buttonStatus = defaultsManager.toggleFavorites(titleId: titleId)
+        if (buttonStatus) {
+            return true
+        } else {
+            return false
+        }
     }
 }
