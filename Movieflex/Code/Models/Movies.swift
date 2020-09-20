@@ -9,52 +9,22 @@
 import Foundation
 
 // Movie Search
-struct AutoCompleteTitle: Decodable {
+struct SearchIds: Decodable {
     let id: String
-    let name: String
-    let type: String?
-    let rank: Int
-    let starring: String
-    let poster: TitlePoster
-    let year: Int?
-    
-    private enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case name = "l"
-        case type = "q"
-        case rank = "rank"
-        case starring = "s"
-        case poster = "i"
-        case year = "y"
-    }
 }
 
 struct TitlePoster: Decodable {
     let height: Double
     let width: Double
     let url: String
-    
-    private enum CodingKeys: String, CodingKey {
-        case height = "height"
-        case width = "width"
-        case url = "imageUrl"
-    }
 }
 
-// MARK:- Title Meta Data
 struct TitleInfo: Decodable {
     let runningTimeInMinutes: Int?
     let title: String
     let titleType: String
-    let year: Int
+    let year: Int?
     let image: TitlePoster
-    
-    // MARK:- had to write this again,the meta-data API contains the url in a `url` key instead of `imageUrl`. P.S. - If you're making your own APIs, make sure to have consitency, it always helps in the long run.
-    struct TitlePoster: Decodable {
-        let height: Double
-        let width: Double
-        let url: String
-    }
 }
 
 struct TitleRating: Decodable {
@@ -112,3 +82,24 @@ struct DecodedTitleMetaData: Decodable {
         titlesMetaData = tempArray
     }
 }
+
+// Title Detail
+struct TitleDetail: Decodable {
+    let id: String
+    let title: TitleData
+    let releaseDate: String
+    let plotOutline: TitlePlot
+    
+    
+    struct TitleData: Decodable {
+        let runningTimeInMinutes: Double
+        let year: Int
+    }
+    
+    struct TitlePlot: Decodable {
+        let author: String
+        let text: String
+    }
+}
+
+

@@ -22,6 +22,9 @@ enum APIs: URLRequestConvertible  {
     case popularTitles(regionCode: String)
     case moviesComingSoon
     case getTitleMetaData(titleIds: [String])
+    case getTitleDetails(titleId: String)
+    case getCastForTitle(titleId: String)
+    case getActorDetails(actorId: String)
     
     
     // MARK:- variables
@@ -39,6 +42,12 @@ enum APIs: URLRequestConvertible  {
             return "/title/get-coming-soon-movies"
         case .getTitleMetaData(_):
             return "/title/get-meta-data"
+        case .getTitleDetails(_):
+            return "/title/get-overview-details"
+        case.getCastForTitle(_):
+            return "/title/get-top-cast"
+        case .getActorDetails(_):
+            return "/actors/get-bio"
         }
     }
     
@@ -66,6 +75,12 @@ enum APIs: URLRequestConvertible  {
             parameters["currentCountry"] = regionCode
         case .getTitleMetaData(let titleIds):
             parameters["ids"] = titleIds
+        case .getTitleDetails(let titleId):
+            parameters["tconst"] = titleId
+        case .getCastForTitle(let titleId):
+            parameters["tconst"] = titleId
+        case .getActorDetails(let actorId):
+            parameters["nconst"] = actorId
         default: break
         }
         
@@ -84,7 +99,25 @@ struct NetworkManager {
     let imageCompressionScale: CGFloat = 0.25
     
     // functions to call the APIs
-    func getTitlesAutocomplete(query: String, completion: @escaping([AutoCompleteTitle]?, APIError? ) -> ()) {
+    func downloadMoviePoster(url: URL, titleId: String, completion: @escaping(URL?, APIError?) -> ()) {
+        Alamofire.request(URLRequest(url: url)).validate().responseData { res in
+            switch res.result {
+            case .failure:
+                completion(nil, .apiError)
+            case .success(let imageData):
+                guard let image = UIImage(data: imageData), let compressedData = image.jpegData(compressionQuality: imageCompressionScale) else { return }
+                do {
+                    try compressedData.write(to: fileHandler.getPathForImage(titleId: titleId))
+                    completion(fileHandler.getPathForImage(titleId: titleId), nil)
+                } catch {
+                    print(error)
+                    completion(nil, .decodingError)
+                }
+            }
+        }
+    }
+    
+    func getTitlesFromSearch(query: String, completion: @escaping([String]?, APIError? ) -> ()) {
         Alamofire.request(APIs.titleautocomplete(query: query)).validate().responseJSON { json in
             switch json.result {
             case .failure:
@@ -92,8 +125,9 @@ struct NetworkManager {
             case .success(let jsonData):
                 if let payload = jsonData as? [String:Any], let arrayData = payload["d"], let jsonData = try? JSONSerialization.data(withJSONObject: arrayData, options: .sortedKeys)  {
                     do {
-                        let titles = try jsonDecoder.decode([AutoCompleteTitle].self, from: jsonData)
-                        completion(titles, nil)
+                        let titles = try jsonDecoder.decode([SearchIds].self, from: jsonData)
+                        let titleIds = titles.map { $0.id }
+                        completion(titleIds, nil)
                     } catch {
                         print(error)
                         completion(nil, .decodingError)
@@ -170,22 +204,51 @@ struct NetworkManager {
         }
     }
     
-    func downloadMoviePoster(url: URL, titleId: String, completion: @escaping(URL?, APIError?) -> ()) {
-        Alamofire.request(URLRequest(url: url)).validate().responseData { res in
-            switch res.result {
+    func getTitleDetails(titleId: String, completion: @escaping(TitleDetail?, APIError?) -> ()) {
+        Alamofire.request(APIs.getTitleDetails(titleId: titleId)).validate().responseJSON { json in
+            switch json.result {
             case .failure:
                 completion(nil, .apiError)
-            case .success(let imageData):
-                guard let image = UIImage(data: imageData), let compressedData = image.jpegData(compressionQuality: imageCompressionScale) else { return }
-                do {
-                    try compressedData.write(to: fileHandler.getPathForImage(titleId: titleId))
-                    completion(fileHandler.getPathForImage(titleId: titleId), nil)
-                } catch {
-                    print(error)
-                    completion(nil, .decodingError)
+            case .success(let jsonData):
+                if let payload = try? JSONSerialization.data(withJSONObject: jsonData, options: .sortedKeys) {
+                    do {
+                        let titleDetails = try jsonDecoder.decode(TitleDetail.self, from: payload)
+                        completion(titleDetails, nil)
+                    } catch {
+                        print(error)
+                        completion(nil, .decodingError)
+                    }
+                } else {
+                    completion(nil, .networkError)
                 }
             }
         }
+    }
+    
+    func getCastForTitle(titleId: String, completion: @escaping([String]?, APIError?) -> ()) {
+        Alamofire.request(APIs.getCastForTitle(titleId: titleId)).validate().responseJSON { json in
+            switch json.result {
+            case .failure:
+                completion(nil, .apiError)
+                break
+            case .success(let jsonData):
+                if let jsonData = try? JSONSerialization.data(withJSONObject: jsonData, options: .sortedKeys)  {
+                    do {
+                        let popularTitles = try jsonDecoder.decode([String].self, from: jsonData)
+                        completion(popularTitles.map { $0.components(separatedBy: "/")[2] }, nil)
+                    } catch {
+                        print(error)
+                        completion(nil, .decodingError)
+                    }
+                } else {
+                    completion(nil, .networkError)
+                }
+            }
+        }
+    }
+    
+    func getDetailsForActor(actorId: String) {
+        
     }
 }
 
