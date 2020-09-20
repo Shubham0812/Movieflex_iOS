@@ -26,26 +26,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track Movies" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fue-eF-CE9">
-                                <rect key="frame" x="132.5" y="68" width="149" height="29"/>
+                                <rect key="frame" x="136.5" y="68" width="141.5" height="28"/>
                                 <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WcY-l5-udN">
-                                <rect key="frame" x="24" y="71.5" width="15.5" height="22"/>
-                                <color key="tintColor" systemColor="labelColor"/>
-                                <state key="normal" image="chevron.left" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="medium" weight="semibold"/>
-                                </state>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track your favorite movies that you'd like to watch. Add your bucket list ;)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xr0-5c-HAf">
-                                <rect key="frame" x="24" y="113" width="366" height="35"/>
+                                <rect key="frame" x="24" y="116" width="366" height="34"/>
                                 <fontDescription key="fontDescription" name="SFMono-Medium" family="SF Mono" pointSize="14.5"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Enter movie name" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FGb-YD-fQU">
-                                <rect key="frame" x="24" y="168" width="366" height="42"/>
+                                <rect key="frame" x="24" y="178" width="366" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="H8M-5g-uXV"/>
                                 </constraints>
@@ -53,6 +46,17 @@
                                 <color key="barTintColor" systemColor="labelColor"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" enablesReturnKeyAutomatically="YES"/>
                             </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UlU-gi-a2q">
+                                <rect key="frame" x="0.0" y="244" width="414" height="652"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WcY-l5-udN">
+                                <rect key="frame" x="24" y="71" width="15.5" height="22.5"/>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <state key="normal" image="chevron.left" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="medium" weight="semibold"/>
+                                </state>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="UJL-Io-Xg6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -61,17 +65,22 @@
                             <constraint firstItem="FGb-YD-fQU" firstAttribute="leading" secondItem="UJL-Io-Xg6" secondAttribute="leading" constant="24" id="2hL-qc-V8u"/>
                             <constraint firstItem="fue-eF-CE9" firstAttribute="top" secondItem="UJL-Io-Xg6" secondAttribute="top" constant="24" id="4ls-wG-qis"/>
                             <constraint firstItem="UJL-Io-Xg6" firstAttribute="trailing" secondItem="Xr0-5c-HAf" secondAttribute="trailing" constant="24" id="7bh-4s-Rjh"/>
+                            <constraint firstItem="UlU-gi-a2q" firstAttribute="leading" secondItem="UJL-Io-Xg6" secondAttribute="leading" id="7nt-XM-Q34"/>
+                            <constraint firstAttribute="bottom" secondItem="UlU-gi-a2q" secondAttribute="bottom" id="A7m-hm-hEQ"/>
                             <constraint firstItem="fue-eF-CE9" firstAttribute="centerX" secondItem="UJL-Io-Xg6" secondAttribute="centerX" id="DaP-Eb-lzK"/>
+                            <constraint firstItem="UJL-Io-Xg6" firstAttribute="trailing" secondItem="UlU-gi-a2q" secondAttribute="trailing" id="Icr-xl-uBq"/>
                             <constraint firstItem="WcY-l5-udN" firstAttribute="leading" secondItem="UJL-Io-Xg6" secondAttribute="leading" constant="24" id="Oi1-Gj-d5F"/>
                             <constraint firstItem="WcY-l5-udN" firstAttribute="centerY" secondItem="fue-eF-CE9" secondAttribute="centerY" id="QHP-67-csG"/>
+                            <constraint firstItem="UlU-gi-a2q" firstAttribute="top" secondItem="FGb-YD-fQU" secondAttribute="bottom" constant="24" id="cpe-Y1-ewd"/>
                             <constraint firstItem="Xr0-5c-HAf" firstAttribute="leading" secondItem="UJL-Io-Xg6" secondAttribute="leading" constant="24" id="dCk-aU-YIY"/>
-                            <constraint firstItem="FGb-YD-fQU" firstAttribute="top" secondItem="Xr0-5c-HAf" secondAttribute="bottom" constant="20" id="l46-n2-UKo"/>
-                            <constraint firstItem="Xr0-5c-HAf" firstAttribute="top" secondItem="fue-eF-CE9" secondAttribute="bottom" constant="16" id="yaP-AB-y4y"/>
+                            <constraint firstItem="FGb-YD-fQU" firstAttribute="top" secondItem="Xr0-5c-HAf" secondAttribute="bottom" constant="28" id="l46-n2-UKo"/>
+                            <constraint firstItem="Xr0-5c-HAf" firstAttribute="top" secondItem="fue-eF-CE9" secondAttribute="bottom" constant="20" id="yaP-AB-y4y"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="backButton" destination="WcY-l5-udN" id="M2b-Xf-XXA"/>
                         <outlet property="searchBar" destination="FGb-YD-fQU" id="Et7-aJ-aS1"/>
+                        <outlet property="searchTableView" destination="UlU-gi-a2q" id="rd8-EA-RvZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rKH-mh-UXk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

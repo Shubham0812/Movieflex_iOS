@@ -11,6 +11,11 @@ import Foundation
 
 class UserDefaultsManager {
     
+    enum Favorites: String {
+        case favoriteActors
+        case favoriteMovies
+    }
+    
     // MARK:- getter functions
     func getPopularTitlesList() -> [String] {
         guard let titles = UserDefaults.standard.array(forKey: "popularTitles") as? [String]  else { return [] }
@@ -22,8 +27,8 @@ class UserDefaultsManager {
         return titles
     }
     
-    func getFavoriteMovies() -> [String] {
-        guard let titles = UserDefaults.standard.array(forKey: "favoriteMovies") as? [String]  else { return [] }
+    func getFavorites(type: Favorites) -> [String] {
+        guard let titles = UserDefaults.standard.array(forKey: type.rawValue) as? [String]  else { return [] }
         return titles
     }
     
@@ -36,28 +41,28 @@ class UserDefaultsManager {
         UserDefaults.standard.set(titles, forKey: "comingSoonTitles")
     }
     
-    func setFavoriteMovies(titles: [String]) {
-        UserDefaults.standard.set(titles, forKey: "favoriteMovies")
+    func setFavorites(ids: [String], for type: Favorites) {
+        UserDefaults.standard.set(ids, forKey: type.rawValue)
     }
     
     
     // MARK:- favorite Movies
     @discardableResult
-    func toggleFavorites(titleId: String) -> Bool {
-        let favorites = getFavoriteMovies()
-        if (favorites.contains(titleId)) {
-            self.removeMovieFromFavorites(titleId: titleId, favorites: favorites)
+    func toggleFavorites(id: String, type: Favorites) -> Bool {
+        let favorites = getFavorites(type: type)
+        if (favorites.contains(id)) {
+            self.removeFromFavorites(id: id, favorites: favorites, type: type)
             return false
         } else {
-            self.addMovieToFavorites(titleId: titleId, favorites: favorites)
+            self.addToFavorites(ids: id, favorites: favorites, type: type)
             return true
         }
     }
     
     @discardableResult
-    func checkIfFavorite(titleId: String) ->Bool {
-        let favorites = getFavoriteMovies()
-        if (favorites.contains(titleId)) {
+    func checkIfFavorite(id: String, type: Favorites) ->Bool {
+        let favorites = getFavorites(type: type)
+        if (favorites.contains(id)) {
             return true
         } else {
             return false
@@ -65,16 +70,16 @@ class UserDefaultsManager {
     }
     
     @discardableResult
-    func addMovieToFavorites(titleId: String, favorites: [String]) -> Bool {
+    func addToFavorites(ids: String, favorites: [String], type: Favorites) -> Bool {
         var newFavorites = favorites
-        newFavorites.append(titleId)
-        self.setFavoriteMovies(titles: newFavorites)
+        newFavorites.append(ids)
+        self.setFavorites(ids: newFavorites, for: type)
         return true
     }
     
     @discardableResult
-    func removeMovieFromFavorites(titleId: String, favorites: [String]) -> Bool {
-        self.setFavoriteMovies(titles: favorites.filter( {$0 != titleId} ))
+    func removeFromFavorites(id: String, favorites: [String], type: Favorites) -> Bool {
+        self.setFavorites(ids: favorites.filter( {$0 != id}), for: type)
         return true
     }
     

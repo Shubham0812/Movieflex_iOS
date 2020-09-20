@@ -52,13 +52,18 @@ import UIKit
         setupView()
     }
     
+    override func prepareForInterfaceBuilder() {
+        setupView()
+    }
+    
+    
     // MARK:- functions for the viewController
     func setupView() {
         self.layer.cornerRadius = cornerRadius
         self.layer.borderColor = borderColor.withAlphaComponent(borderAlpha).cgColor
         self.layer.borderWidth = 2
         
-        self.profileImageView.layer.cornerRadius = cornerRadius
         self.profileImageView.image = profileImage
+        self.profileImageView.layer.cornerRadius = cornerRadius
     }
 }

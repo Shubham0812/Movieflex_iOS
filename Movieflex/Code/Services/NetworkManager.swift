@@ -24,12 +24,13 @@ enum APIs: URLRequestConvertible  {
     case getTitleMetaData(titleIds: [String])
     case getTitleDetails(titleId: String)
     case getCastForTitle(titleId: String)
+    case getFilmsForActor(actorId: String)
     case getActorDetails(actorId: String)
     
     
     // MARK:- variables
     static let endpoint = URL(string: "https://imdb8.p.rapidapi.com")!
-    static let apiKey = "900b3906b7mshf8022684541b5cbp120f12jsn83c43a13c786"
+    static let apiKey = "edab62cc8amsh92b71b902471668p16e9b3jsn432c947b0bf5"
     static let apiHost = "imdb8.p.rapidapi.com"
     
     var path: String {
@@ -46,6 +47,8 @@ enum APIs: URLRequestConvertible  {
             return "/title/get-overview-details"
         case.getCastForTitle(_):
             return "/title/get-top-cast"
+        case .getFilmsForActor(_):
+            return "/actors/get-all-filmography"
         case .getActorDetails(_):
             return "/actors/get-bio"
         }
@@ -79,6 +82,8 @@ enum APIs: URLRequestConvertible  {
             parameters["tconst"] = titleId
         case .getCastForTitle(let titleId):
             parameters["tconst"] = titleId
+        case .getFilmsForActor(let actorId):
+            parameters["nconst"] = actorId
         case .getActorDetails(let actorId):
             parameters["nconst"] = actorId
         default: break
@@ -99,7 +104,7 @@ struct NetworkManager {
     let imageCompressionScale: CGFloat = 0.25
     
     // functions to call the APIs
-    func downloadMoviePoster(url: URL, titleId: String, completion: @escaping(URL?, APIError?) -> ()) {
+    func downloadMoviePoster(url: URL, id: String, completion: @escaping(URL?, APIError?) -> ()) {
         Alamofire.request(URLRequest(url: url)).validate().responseData { res in
             switch res.result {
             case .failure:
@@ -107,8 +112,8 @@ struct NetworkManager {
             case .success(let imageData):
                 guard let image = UIImage(data: imageData), let compressedData = image.jpegData(compressionQuality: imageCompressionScale) else { return }
                 do {
-                    try compressedData.write(to: fileHandler.getPathForImage(titleId: titleId))
-                    completion(fileHandler.getPathForImage(titleId: titleId), nil)
+                    try compressedData.write(to: fileHandler.getPathForImage(id: id))
+                    completion(fileHandler.getPathForImage(id: id), nil)
                 } catch {
                     print(error)
                     completion(nil, .decodingError)
@@ -234,8 +239,29 @@ struct NetworkManager {
             case .success(let jsonData):
                 if let jsonData = try? JSONSerialization.data(withJSONObject: jsonData, options: .sortedKeys)  {
                     do {
-                        let popularTitles = try jsonDecoder.decode([String].self, from: jsonData)
-                        completion(popularTitles.map { $0.components(separatedBy: "/")[2] }, nil)
+                        let titleCast = try jsonDecoder.decode([String].self, from: jsonData)
+                        completion(titleCast.map { $0.components(separatedBy: "/")[2] }, nil)
+                    } catch {
+                        print(error)
+                        completion(nil, .decodingError)
+                    }
+                } else {
+                    completion(nil, .networkError)
+                }
+            }
+        }
+    }
+    
+    func getMoviesForActor(actorId: String, completion: @escaping(ActorFilms?, APIError?) -> ()) {
+        Alamofire.request(APIs.getFilmsForActor(actorId: actorId)).validate().responseJSON { json in
+            switch json.result {
+            case .failure:
+                completion(nil, .apiError)
+            case .success(let jsonData):
+                if let payload = try? JSONSerialization.data(withJSONObject: jsonData, options: .sortedKeys) {
+                    do {
+                        let actorFilms = try jsonDecoder.decode(ActorFilms.self, from: payload)
+                        completion(actorFilms, nil)
                     } catch {
                         print(error)
                         completion(nil, .decodingError)

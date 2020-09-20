@@ -47,7 +47,7 @@ struct MovieSearchViewModel {
     }
     
     func checkIfFavorite(titleId: String) -> Bool {
-        if (defaultsManager.checkIfFavorite(titleId: titleId)) {
+        if (defaultsManager.checkIfFavorite(id: titleId, type: .favoriteMovies)) {
             return true
         } else  {
             return false
@@ -57,7 +57,7 @@ struct MovieSearchViewModel {
 
 extension MovieSearchViewModel {
     func likePressed(titleId: String) -> Bool {
-        let buttonStatus = defaultsManager.toggleFavorites(titleId: titleId)
+        let buttonStatus = defaultsManager.toggleFavorites(id: titleId, type: .favoriteMovies)
         if (buttonStatus) {
             return true
         } else {

@@ -12,20 +12,21 @@ struct MovieDetailViewModel {
     
     let fileHandler: FileHandler
     let networkManager: NetworkManager
+    let defaultsManager: UserDefaultsManager
+    
     let movieId: String
-    
+
     var movieDetails: BoxBind<TitleDetail?> = BoxBind(nil)
-    
-    
+
     // MARK:- initializer for the viewModel
-    init(movieId: String, handler: FileHandler = FileHandler(), networkManager: NetworkManager = NetworkManager()) {
+    init(movieId: String, handler: FileHandler = FileHandler(), networkManager: NetworkManager = NetworkManager(), defaultsManager: UserDefaultsManager = UserDefaultsManager()) {
         
         self.movieId = movieId
         self.fileHandler = handler
         self.networkManager = networkManager
+        self.defaultsManager = defaultsManager
         
         self.getTitleDetails()
-        self.getCast()
     }
     
     // MARK:- functions for the viewModel
@@ -35,12 +36,8 @@ struct MovieDetailViewModel {
             self.movieDetails.value = titleData
         }
     }
-    
-    func getCast() {
-        networkManager.getCastForTitle(titleId: movieId) { res, error in
-            guard let casts = res else { return }
-            
-        }
-    }
-    
+}
+
+extension MovieDetailViewModel {
+
 }
