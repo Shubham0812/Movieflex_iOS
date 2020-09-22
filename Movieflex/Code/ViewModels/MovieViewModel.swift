@@ -9,6 +9,7 @@
 import UIKit
 
 struct MovieViewModel {
+    
     // MARK:- variable for the viewModel
     let fileHandler: FileHandler
     let networkManager: NetworkManager
@@ -39,7 +40,6 @@ struct MovieViewModel {
     var moviePosterImage: BoxBind<UIImage?> = BoxBind(nil)
     var isFavorite: BoxBind<Bool?> = BoxBind(nil)
     
-    
     var movieTitle: String {
         titleInfo.title
     }
@@ -52,10 +52,23 @@ struct MovieViewModel {
         }
     }
     
+    var movieFans: String {
+        guard let ratingCount = self.rating.ratingCount else { return "\(Int.random(in: 1024..<100000))"}
+        return "\(ratingCount)"
+    }
+    
+    var movieRating: String {
+        guard let rating = self.rating.rating else { return "\(Double.random(in: 5.0..<9.9).rounded(toPlaces: 1))"}
+        return "\(rating.rounded(toPlaces: 1))"
+    }
+    
     var movieRunTime: String {
-        guard let runningTime = self.titleInfo.runningTimeInMinutes else { return "" }
-        let hours = runningTime / 60
-        let minutes = runningTime % 60
+        var runtime = Int.random(in: 100..<142)
+        if (self.titleInfo.runningTimeInMinutes != nil) {
+            runtime = self.titleInfo.runningTimeInMinutes!
+        }
+        let hours = runtime / 60
+        let minutes = runtime % 60
         if (hours > 0) {
             return "\(hours)h \(minutes)m"
         } else {
@@ -103,106 +116,3 @@ struct MovieViewModel {
         }
     }
 }
-
-
-struct MovieListViewModel {
-    
-    enum ListType {
-        case popularMovies
-        case comingSoonMovies
-        case favoriteMovies
-    }
-    
-    // MARK:- variable for the viewModel
-    let defaultsManager: UserDefaultsManager
-    let networkManager: NetworkManager
-    let fileHandler: FileHandler
-    let favoriteType: UserDefaultsManager.Favorites = .favoriteMovies
-    
-    var offset: Int = 0
-    var limit: Int = 10
-    
-    var popularMovies: BoxBind<[MovieViewModel]?> = BoxBind([MovieViewModel](repeating: MovieViewModel(meta: nil), count: 10))
-    var comingSoonMovies: BoxBind<[MovieViewModel]?> = BoxBind([MovieViewModel](repeating: MovieViewModel(meta: nil), count: 10))
-    var favoriteMovies: BoxBind<[MovieViewModel]?> = BoxBind([MovieViewModel](repeating: MovieViewModel(meta: nil), count: 10))
-    
-    var noData: BoxBind<(ListType?)> = BoxBind(nil)
-    
-    
-    // MARK:- initializers for the viewModel
-    init(defaultsManager: UserDefaultsManager, networkManager: NetworkManager, handler: FileHandler) {
-        self.defaultsManager = defaultsManager 
-        self.networkManager = networkManager
-        self.fileHandler = handler
-                
-        self.getPopularMovieTitles(offset: offset, limit: limit)
-        self.getComingSoonTitles(offset: offset, limit: limit)
-        self.getFavorites()
-    }
-    
-    // MARK:- functions for the viewModel
-    func getPopularMovieTitles(offset: Int, limit: Int) {
-        let moviesList = defaultsManager.getPopularTitlesList()
-        if (moviesList.isEmpty) {
-        } else {
-            let titleIds = moviesList[offset..<limit]
-            networkManager.getTitlesMetaData(titleIds: Array(titleIds)) { res, error in
-                guard let titlesMetaData = res else { return }
-                self.popularMovies.value = titlesMetaData.map { MovieViewModel(meta: $0)}
-            }
-        }
-    }
-    
-    func getComingSoonTitles(offset: Int, limit: Int) {
-        DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
-            let moviesList = defaultsManager.getComingSoonTitlesList()
-            if (moviesList.isEmpty) {
-            } else {
-                let titleIds = moviesList[offset..<limit]
-                networkManager.getTitlesMetaData(titleIds: Array(titleIds)) { res, error in
-                    guard let titlesMetaData = res else { return }
-                    self.comingSoonMovies.value = titlesMetaData.map { MovieViewModel(meta: $0) }
-                }
-            }
-        }
-    }
-    
-    func getFavorites() {
-        let favorties = defaultsManager.getFavorites(type: favoriteType)
-        if (favorties.isEmpty) {
-            self.noData.value = .favoriteMovies
-        } else {
-            networkManager.getTitlesMetaData(titleIds: Array(favorties)) { res, error in
-                guard let titlesMetaData = res else { return }
-                self.favoriteMovies.value = titlesMetaData.map { MovieViewModel(meta: $0)}
-            }
-        }
-    }
-}
-
-extension MovieListViewModel {
-    
-    //    func getMoreTitles(type: MovieType) {
-    //        if (type == .comingSoon) {
-    //            let moviesList = defaultsManager.getComingSoonTitlesList()
-    //            guard let comingSoonTitles = self.comingSoonMovies.value else { return }
-    //            let titleIds = moviesList[comingSoonTitles.count ..< comingSoonTitles + limit]
-    //
-    //            networkManager.getTitlesMetaData(titleIds: Array(titleIds)) { res, error in
-    //                guard let titlesMetaData = res else { return }
-    //                self.comingSoonMovies.value = self.comingSoonMovies.value + titlesMetaData.map { MovieViewModel(meta: $0)}
-    //            }
-    //        }
-    //    }
-    
-    func favoriteRemoved(for model: MovieViewModel) {
-        self.defaultsManager.removeFromFavorites(id: model.id, favorites: defaultsManager.getFavorites(type: favoriteType), type: favoriteType)
-        guard let viewModels = self.favoriteMovies.value else { return }
-        let newModels = viewModels.filter( {
-            $0.id != model.id
-        })
-        self.favoriteMovies.value = newModels
-    }
-}
-
-

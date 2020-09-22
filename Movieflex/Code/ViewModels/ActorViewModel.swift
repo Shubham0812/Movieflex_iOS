@@ -9,21 +9,19 @@
 import UIKit
 
 struct ActorViewModel {
+    
     // MARK:- variable for the viewModel
     let fileHandler: FileHandler
     let networkManager: NetworkManager
     
     let imageUrlString: String
-    let name: String
-    let birthDate: String
-    let birthPlace: String
-    let gender: String
-    let id: String
+    let actorName: String
     
+    let id: String
     let movies: ActorFilms
     
-    var totalMovies: Int {
-        movies.filmography.count
+    var totalMovies: String {
+        return "\(movies.filmography.count) movies"
     }
     
     var actorImageUrl: URL {
@@ -35,20 +33,20 @@ struct ActorViewModel {
     var isFavorite: BoxBind<Bool?> = BoxBind(nil)
     
     // MARK:- initializers for the viewModel
-    init(actor: Actor?, actorFilms: ActorFilms, handler: FileHandler = FileHandler(), networkManager: NetworkManager = NetworkManager()) {
-        
-        if let actor = actor {
-            birthDate = actor.birthDate
-            birthPlace = actor.birthPlace
-            gender = actor.gender
-        } else {
-            birthDate = ""
-            birthPlace = ""
-            gender = ""
+    init(actorFilms: ActorFilms?, handler: FileHandler = FileHandler(), networkManager: NetworkManager = NetworkManager()) {
+        guard let actorFilms = actorFilms, let actorbase = actorFilms.base else {
+            self.id = ""
+            self.imageUrlString = ""
+            self.actorName = ""
+            self.movies = ActorFilms(id: "", base: nil, filmography: [])
+            
+            self.fileHandler = handler
+            self.networkManager = networkManager
+            return
         }
-        id = actorFilms.base.id.components(separatedBy: ",")[2]
-        imageUrlString = actorFilms.base.image.url
-        name = actorFilms.base.name
+        id = actorbase.id.components(separatedBy: "/")[2]
+        imageUrlString = actorbase.image.url
+        actorName = actorbase.name
         movies = actorFilms
         
         self.fileHandler = handler
@@ -67,62 +65,6 @@ struct ActorViewModel {
                     self.actorImage.value = UIImage(contentsOfFile: fileHandler.getPathForImage(id: id).path)
                 }
             }
-        }
-    }
-}
-
-
-struct ActorListViewModel {
-    // MARK:- variable for the viewModel
-    let defaultsManager: UserDefaultsManager
-    let networkManager: NetworkManager
-    let fileHandler: FileHandler
-    let favoriteType: UserDefaultsManager.Favorites = .favoriteActors
-    
-    let movieId: String
-    var offset: Int = 0
-    var limit: Int = 1
-    
-    var actors: BoxBind<[String]?> = BoxBind(nil)
-    
-    var actorsForMovie: BoxBind<[ActorViewModel]?> = BoxBind(nil)
-    var favoriteActor:BoxBind<[ActorViewModel]?> = BoxBind(nil)
-    
-    // MARK:- initializers for the viewModel
-    init(movieId: String = "", handler: FileHandler = FileHandler(), networkManager: NetworkManager = NetworkManager(), defaultsManager: UserDefaultsManager = UserDefaultsManager()) {
-        self.defaultsManager = defaultsManager
-        self.networkManager = networkManager
-        self.fileHandler = handler
-        self.movieId = movieId
-        
-        
-        self.getActorsForMovie()
-    }
-
-    // MARK:- functions for the viewModel
-    func getActorsForMovie() {
-        networkManager.getCastForTitle(titleId: movieId) { res, error in
-            guard let casts = res else { return }
-            let initialDisplayCasts = casts[offset..<limit]
-            
-            DispatchQueue.global(qos: .default).async {
-                for cast in initialDisplayCasts {
-                    networkManager.getMoviesForActor(actorId: cast) { res, error in
-                        print("The filmu data", res)
-                    }
-                }
-            }
-        }
-    }
-}
-
-extension ActorListViewModel {
-    func likePressed(id: String) -> Bool {
-        let buttonStatus = defaultsManager.toggleFavorites(id: id, type: .favoriteActors)
-        if (buttonStatus) {
-            return true
-        } else {
-            return false
         }
     }
 }

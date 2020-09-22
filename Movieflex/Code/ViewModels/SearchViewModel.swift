@@ -14,8 +14,7 @@ struct MovieSearchViewModel {
     let networkManager: NetworkManager
     let defaultsManager: UserDefaultsManager
     
-//    var searchedTitles:  BoxBind<[MovieViewModel]?> = BoxBind(nil)
-    var searchedTitles:  BoxBind<[MovieViewModel]?> = BoxBind([MovieViewModel](repeating: MovieViewModel(meta: nil), count: 10))
+    var searchedTitles:  BoxBind<[MovieViewModel]?> = BoxBind(nil)
     var debounceTimer: BoxBind<Timer?> = BoxBind(nil)
     
     init(handler:FileHandler, networkManager: NetworkManager, defaultsManager: UserDefaultsManager) {
@@ -46,21 +45,29 @@ struct MovieSearchViewModel {
         }
     }
     
-    func checkIfFavorite(titleId: String) -> Bool {
-        if (defaultsManager.checkIfFavorite(id: titleId, type: .favoriteMovies)) {
-            return true
-        } else  {
-            return false
-        }
+    func removeSearchedTitles() {
+        self.searchedTitles.value = nil
     }
 }
 
-extension MovieSearchViewModel {
-    func likePressed(titleId: String) -> Bool {
-        let buttonStatus = defaultsManager.toggleFavorites(id: titleId, type: .favoriteMovies)
+extension MovieSearchViewModel: Likeable {
+    var favoriteType: Favorites  {
+        .favoriteMovies
+    }
+    
+    func likePressed(id: String) -> Bool {
+        let buttonStatus = defaultsManager.toggleFavorites(id: id, type: .favoriteMovies)
         if (buttonStatus) {
             return true
         } else {
+            return false
+        }
+    }
+    
+    func checkIfFavorite(id: String) -> Bool {
+        if (defaultsManager.checkIfFavorite(id: id, type: .favoriteMovies)) {
+            return true
+        } else  {
             return false
         }
     }
