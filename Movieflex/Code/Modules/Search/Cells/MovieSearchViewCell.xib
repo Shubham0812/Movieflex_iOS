@@ -29,10 +29,10 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PyG-rw-C8F">
                         <rect key="frame" x="24" y="20" width="352" height="160"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="batman" translatesAutoresizingMaskIntoConstraints="NO" id="GqP-NT-chW">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GqP-NT-chW">
                                 <rect key="frame" x="0.0" y="0.0" width="105.66666666666667" height="160"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V73-z4-0Ey">
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V73-z4-0Ey">
                                 <rect key="frame" x="308" y="62" width="36" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="r3D-uV-UcO"/>
@@ -52,8 +52,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="ITQ-Yl-ahK">
-                                <rect key="frame" x="119.66666666666666" y="42" width="125.33333333333334" height="54"/>
+                            <stackView opaque="NO" alpha="0.0" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="ITQ-Yl-ahK">
+                                <rect key="frame" x="119.66666666666666" y="42" width="125.33333333333334" height="84"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="uXf-n7-DV3">
                                         <rect key="frame" x="0.0" y="0.0" width="125.33333333333333" height="24"/>
@@ -95,6 +95,26 @@
                                             </label>
                                         </subviews>
                                     </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="rVu-fe-Oxf">
+                                        <rect key="frame" x="0.0" y="60" width="125.33333333333333" height="24"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Mih-eJ-OpT">
+                                                <rect key="frame" x="0.0" y="0.99999999999999822" width="24" height="22.333333333333336"/>
+                                                <color key="tintColor" systemColor="secondaryLabelColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="24" id="GPh-4b-3Cd"/>
+                                                    <constraint firstAttribute="height" constant="24" id="sgT-pD-Wdq"/>
+                                                </constraints>
+                                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="light"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SWI-sB-0Sb">
+                                                <rect key="frame" x="29.999999999999993" y="0.0" width="95.333333333333314" height="24"/>
+                                                <fontDescription key="fontDescription" name="SFMono-Regular" family="SF Mono" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -124,19 +144,21 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="containerView" destination="PyG-rw-C8F" id="5Ul-sF-aHS"/>
+                <outlet property="detailStackView" destination="ITQ-Yl-ahK" id="GuO-ij-x6B"/>
                 <outlet property="favoriteButton" destination="V73-z4-0Ey" id="2wU-P2-AcK"/>
                 <outlet property="moviePosterImageView" destination="GqP-NT-chW" id="DMq-4b-Yh1"/>
                 <outlet property="movieReleaseLabel" destination="sKq-7w-Mon" id="xW3-CA-hcF"/>
                 <outlet property="movieRuntimeLabel" destination="lYQ-Nc-uZf" id="8TQ-mQ-RSL"/>
                 <outlet property="movieTitleLabel" destination="dlY-pg-PBo" id="78X-86-eu4"/>
+                <outlet property="ratingLabel" destination="SWI-sB-0Sb" id="aNW-rZ-LfC"/>
             </connections>
             <point key="canvasLocation" x="-155.07246376811597" y="87.723214285714278"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="batman" width="1638" height="2048"/>
         <image name="calendar.circle" catalog="system" width="128" height="121"/>
         <image name="clock.fill" catalog="system" width="128" height="121"/>
+        <image name="star.circle" catalog="system" width="128" height="121"/>
         <image name="suit.heart" catalog="system" width="128" height="109"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>

@@ -12,11 +12,18 @@ import UIKit
 class MovieSearchViewController: UIViewController, UISearchBarDelegate {
     
     // MARK:- outlets for the viewController
-    @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchTableView: UITableView!
     
     // MARK:- variables for the viewController
+    override class func description() -> String {
+        "MovieSearchViewController"
+    }
+    
+    let defaultsManager = UserDefaultsManager()
+    let networkManager = NetworkManager()
+    let fileHandler = FileHandler()
+    
     var searchViewModel: MovieSearchViewModel!
     
     // MARK:- lifeCycle for the viewController
@@ -32,11 +39,9 @@ class MovieSearchViewController: UIViewController, UISearchBarDelegate {
         
         self.searchViewModel = MovieSearchViewModel(handler: FileHandler(), networkManager: NetworkManager(), defaultsManager: UserDefaultsManager())
         
-        self.searchViewModel.searchedTitles.bind { _ in
+        self.searchViewModel.searchedTitles.bind { val in
             self.searchTableView.reloadData()
-        }
-        
-        self.customizeUI()
+        }        
     }
     
     // MARK: - UISearchBarDelegate
@@ -49,11 +54,7 @@ class MovieSearchViewController: UIViewController, UISearchBarDelegate {
         searchBar.text = nil
         searchBar.setShowsCancelButton(false, animated: true)
         searchBar.resignFirstResponder()
-        
-    }
-    
-    // MARK:- utility functions for the viewController
-    func customizeUI() {
+        searchViewModel.removeSearchedTitles()
         
     }
 }
@@ -61,7 +62,7 @@ class MovieSearchViewController: UIViewController, UISearchBarDelegate {
 extension MovieSearchViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let movieViewModels = self.searchViewModel.searchedTitles.value else { return 0}
+        guard let movieViewModels = self.searchViewModel.searchedTitles.value else { return 0 }
         return movieViewModels.count
     }
     
@@ -77,5 +78,14 @@ extension MovieSearchViewController: UITableViewDataSource, UITableViewDelegate 
             return cell
         }
         fatalError()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let movieViewModel = self.searchViewModel.searchedTitles.value else { return }
+        
+        guard let movieDetailVC =  UIStoryboard(name: "Home", bundle: nil).instantiateViewController(withIdentifier: MovieDetailViewController.description()) as? MovieDetailViewController else { return }
+        movieDetailVC.viewModel = movieViewModel[indexPath.row]
+        movieDetailVC.movieListViewModel = MovieListViewModel(defaultsManager: defaultsManager, networkManager: networkManager, handler: fileHandler)
+        self.navigationController?.pushViewController(movieDetailVC, animated: true)
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieSearchViewCell: UITableViewCell {
+class MovieSearchViewCell: UITableViewCell, ComponentShimmers {
     
     // MARK:- outlets for the cell
     @IBOutlet weak var containerView: UIView!
@@ -18,6 +18,8 @@ class MovieSearchViewCell: UITableViewCell {
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var movieRuntimeLabel: UILabel!
     @IBOutlet weak var movieReleaseLabel: UILabel!
+    @IBOutlet weak var detailStackView: UIStackView!
+    @IBOutlet weak var ratingLabel: UILabel!
     
     
     // MARK:- variables for the cell
@@ -25,6 +27,8 @@ class MovieSearchViewCell: UITableViewCell {
         return "MovieSearchViewCell"
     }
     
+    
+    let animationDuration: Double = 0.25
     let cornerRadius: CGFloat = 12
     let rowHeight: CGFloat = 200
     
@@ -42,7 +46,8 @@ class MovieSearchViewCell: UITableViewCell {
         super.awakeFromNib()
         
         self.selectionStyle = .none
-        
+        hideViews()
+
         self.moviePosterImageView.setCornerRadius(radius: cornerRadius - 4)
         self.containerView.setCornerRadius(radius: cornerRadius)
         self.containerView.setShadow(shadowColor: UIColor.label, shadowOpacity: 0.25, shadowRadius: 10, offset: CGSize(width: 1, height: 1))
@@ -54,13 +59,14 @@ class MovieSearchViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        hideViews()
         self.setButton(with: normalConfiguation)
     }
     
     // MARK:- @objc funcs & IBActions for the viewController
     @IBAction func favoriteButtonPressed(_ sender: Any) {
         guard let searchViewModel = searchViewModel else { return }
-        let status = searchViewModel.likePressed(titleId: id)
+        let status = searchViewModel.likePressed(id: id)
         if (status) {
             buttonAnimationFactory.makeActivateAnimation(for: favoriteButton, likedConfiguration)
         } else {
@@ -68,16 +74,42 @@ class MovieSearchViewCell: UITableViewCell {
         }
     }
     
+    // MARK:- delegate functions for collectionView
+    func hideViews() {
+        ViewAnimationFactory.makeEaseOutAnimation(duration: animationDuration, delay: 0) {
+            self.moviePosterImageView.setOpacity(to: 0)
+            self.movieTitleLabel.setOpacity(to: 0)
+            self.detailStackView.setOpacity(to: 0)
+            self.favoriteButton.setOpacity(to: 0)
+        }
+    }
+    
+    func showViews() {
+        ViewAnimationFactory.makeEaseOutAnimation(duration: animationDuration, delay: 0) {
+            self.moviePosterImageView.setOpacity(to: 1)
+            self.movieTitleLabel.setOpacity(to: 1)
+            self.detailStackView.setOpacity(to: 1)
+            self.favoriteButton.setOpacity(to: 1)
+        }
+    }
+    
+    func setShimmer() {
+        DispatchQueue.main.async { [unowned self] in
+            shimmer.removeLayerIfExists(self)
+            shimmer = ShimmerLayer(for: self.containerView, cornerRadius: 12)
+            self.layer.addSublayer(shimmer)
+        }
+    }
+    
+    func removeShimmer() {
+        shimmer.removeFromSuperlayer()
+    }
+    
     
     // MARK:- functions for the cell
     func setupCell(viewModel: MovieViewModel) {
-        DispatchQueue.main.async { [unowned self] in
-            shimmer.removeLayerIfExists(self)
-            shimmer = ShimmerLayer(for: self.containerView, cornerRadius: cornerRadius)
-            self.layer.addSublayer(shimmer)
-        }
-    
-        if let status = self.searchViewModel?.checkIfFavorite(titleId: viewModel.id) {
+        setShimmer()
+        if let status = self.searchViewModel?.checkIfFavorite(id: viewModel.id) {
             if (status) {
                 self.setButton(with: likedConfiguration)
             }
@@ -86,6 +118,7 @@ class MovieSearchViewCell: UITableViewCell {
         self.movieTitleLabel.text = viewModel.movieTitle
         self.movieRuntimeLabel.text = viewModel.movieRunTime
         self.movieReleaseLabel.text = viewModel.releaseDate
+        self.ratingLabel.text = viewModel.movieRating
         
         DispatchQueue.global().async {
             viewModel.moviePosterImage.bind {
@@ -93,7 +126,8 @@ class MovieSearchViewCell: UITableViewCell {
                 self.id = viewModel.id
                 DispatchQueue.main.async { [unowned self] in
                     moviePosterImageView.image = posterImage
-                    shimmer.removeFromSuperlayer()
+                    removeShimmer()
+                    showViews()
                 }
             }
         }

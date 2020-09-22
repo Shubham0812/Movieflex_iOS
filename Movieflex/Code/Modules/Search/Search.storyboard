@@ -20,25 +20,25 @@
         <!--Movie Search View Controller-->
         <scene sceneID="mPw-Jw-WVY">
             <objects>
-                <viewController id="IwC-Ln-dYb" customClass="MovieSearchViewController" customModule="Movieflex" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MovieSearchViewController" id="IwC-Ln-dYb" customClass="MovieSearchViewController" customModule="Movieflex" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uIk-UP-hxQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track Movies" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fue-eF-CE9">
-                                <rect key="frame" x="136.5" y="68" width="141.5" height="28"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Movies" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fue-eF-CE9">
+                                <rect key="frame" x="140.5" y="68" width="133" height="28"/>
                                 <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track your favorite movies that you'd like to watch. Add your bucket list ;)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xr0-5c-HAf">
-                                <rect key="frame" x="24" y="116" width="366" height="34"/>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add your favorite movies that you'd like to watch and save them for future ;)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xr0-5c-HAf">
+                                <rect key="frame" x="24" y="116" width="366" height="35"/>
                                 <fontDescription key="fontDescription" name="SFMono-Medium" family="SF Mono" pointSize="14.5"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Enter movie name" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FGb-YD-fQU">
-                                <rect key="frame" x="24" y="178" width="366" height="42"/>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search for movies" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FGb-YD-fQU">
+                                <rect key="frame" x="24" y="179" width="366" height="42"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="H8M-5g-uXV"/>
                                 </constraints>
@@ -47,16 +47,9 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" enablesReturnKeyAutomatically="YES"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UlU-gi-a2q">
-                                <rect key="frame" x="0.0" y="244" width="414" height="652"/>
+                                <rect key="frame" x="0.0" y="245" width="414" height="651"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WcY-l5-udN">
-                                <rect key="frame" x="24" y="71" width="15.5" height="22.5"/>
-                                <color key="tintColor" systemColor="labelColor"/>
-                                <state key="normal" image="chevron.left" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20" scale="medium" weight="semibold"/>
-                                </state>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="UJL-Io-Xg6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -69,8 +62,6 @@
                             <constraint firstAttribute="bottom" secondItem="UlU-gi-a2q" secondAttribute="bottom" id="A7m-hm-hEQ"/>
                             <constraint firstItem="fue-eF-CE9" firstAttribute="centerX" secondItem="UJL-Io-Xg6" secondAttribute="centerX" id="DaP-Eb-lzK"/>
                             <constraint firstItem="UJL-Io-Xg6" firstAttribute="trailing" secondItem="UlU-gi-a2q" secondAttribute="trailing" id="Icr-xl-uBq"/>
-                            <constraint firstItem="WcY-l5-udN" firstAttribute="leading" secondItem="UJL-Io-Xg6" secondAttribute="leading" constant="24" id="Oi1-Gj-d5F"/>
-                            <constraint firstItem="WcY-l5-udN" firstAttribute="centerY" secondItem="fue-eF-CE9" secondAttribute="centerY" id="QHP-67-csG"/>
                             <constraint firstItem="UlU-gi-a2q" firstAttribute="top" secondItem="FGb-YD-fQU" secondAttribute="bottom" constant="24" id="cpe-Y1-ewd"/>
                             <constraint firstItem="Xr0-5c-HAf" firstAttribute="leading" secondItem="UJL-Io-Xg6" secondAttribute="leading" constant="24" id="dCk-aU-YIY"/>
                             <constraint firstItem="FGb-YD-fQU" firstAttribute="top" secondItem="Xr0-5c-HAf" secondAttribute="bottom" constant="28" id="l46-n2-UKo"/>
@@ -78,7 +69,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="backButton" destination="WcY-l5-udN" id="M2b-Xf-XXA"/>
                         <outlet property="searchBar" destination="FGb-YD-fQU" id="Et7-aJ-aS1"/>
                         <outlet property="searchTableView" destination="UlU-gi-a2q" id="rd8-EA-RvZ"/>
                     </connections>
@@ -89,7 +79,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="chevron.left" catalog="system" width="96" height="128"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

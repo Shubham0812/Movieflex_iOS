@@ -13,154 +13,199 @@ class HomeViewController: UIViewController {
     // MARK:- outlets for the viewController
     @IBOutlet weak var userImage: Profile!
     
-    
     @IBOutlet weak var comingSoonMoviesCollectionView: UICollectionView!
     @IBOutlet weak var popularTitlesCollectionView: UICollectionView!
-    @IBOutlet weak var favoritesCollectionView: UICollectionView!
+    @IBOutlet weak var favoriteMoviesCollectionView: UICollectionView!
+    @IBOutlet weak var favoriteActorsCollectionView: UICollectionView!
     
-    
+    @IBOutlet weak var favoriteStackView: UIStackView!
+    @IBOutlet weak var favoriteActorStackView: UIStackView!
     
     // MARK:- variables for the viewController
+    override class func description() -> String {
+        "HomeViewController"
+    }
+    
     var movieListViewModel: MovieListViewModel!
     var searchViewModel: MovieSearchViewModel!
+    var actorListViewModel: ActorListViewModel!
     
     let defaultsManager = UserDefaultsManager()
     let networkManager = NetworkManager()
     let fileHandler = FileHandler()
+    
+    var favoriteActorStackHeight: CGFloat = 0
+    var favoriteMoviesStackHeight: CGFloat = 0
+    var actorsStackMoved: Bool = false
+    
+    var visiblePaths: [IndexPath] = [IndexPath]()
     
     // MARK:- lifeCycle methods for the viewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // popularTitles
-        self.popularTitlesCollectionView.delegate = self
-        self.popularTitlesCollectionView.dataSource = self
-        self.popularTitlesCollectionView.register(TitleCollectionViewCell().asNib(), forCellWithReuseIdentifier: TitleCollectionViewCell.description())
-        
+        self.setCollectionView(for: popularTitlesCollectionView, with: TitleCollectionViewCell().asNib(), and: TitleCollectionViewCell.description())
         // comingSoon
-        self.comingSoonMoviesCollectionView.delegate = self
-        self.comingSoonMoviesCollectionView.dataSource = self
-        self.comingSoonMoviesCollectionView.register(LargeTitleCollectionViewCell().asNib(), forCellWithReuseIdentifier: LargeTitleCollectionViewCell.description())
+        self.setCollectionView(for: comingSoonMoviesCollectionView, with: LargeTitleCollectionViewCell().asNib(), and: LargeTitleCollectionViewCell.description())
+        // favorite movies
+        self.setCollectionView(for: favoriteMoviesCollectionView, with: TitleCollectionViewCell().asNib(), and: TitleCollectionViewCell.description())
+        // favorite movies
+        self.setCollectionView(for: favoriteActorsCollectionView, with: ActorCollectionViewCell().asNib(), and: ActorCollectionViewCell.description())
         
-        // favorites
-        self.favoritesCollectionView.delegate = self
-        self.favoritesCollectionView.dataSource = self
-        self.favoritesCollectionView.register(TitleCollectionViewCell().asNib(), forCellWithReuseIdentifier: TitleCollectionViewCell.description())
+        self.favoriteMoviesStackHeight = self.favoriteStackView.frame.height
+        
+        print("The fav movies height", self.favoriteStackView.frame.height)
+        
         
         self.movieListViewModel = MovieListViewModel(defaultsManager: defaultsManager, networkManager: networkManager, handler: fileHandler)
         self.searchViewModel = MovieSearchViewModel(handler: fileHandler, networkManager: networkManager, defaultsManager: defaultsManager)
+        self.actorListViewModel = ActorListViewModel(handler: fileHandler, networkManager: networkManager, defaultsManager: defaultsManager)
         
         self.movieListViewModel.popularMovies.bind { _ in
             self.popularTitlesCollectionView.reloadData()
+            self.visiblePaths.removeAll()
         }
         
         self.movieListViewModel.comingSoonMovies.bind { _ in
             self.comingSoonMoviesCollectionView.reloadData()
+            self.visiblePaths.removeAll()
         }
         
         self.movieListViewModel.favoriteMovies.bind { movies in
-            self.favoritesCollectionView.reloadData()
-        }
-       
-        self.movieListViewModel.noData.bind {
-            guard let noDataType = $0 else { return }
-            if (noDataType == .favoriteMovies) {
-                self.
+            
+            if let movies = movies {
+                if (movies.isEmpty) {
+                    self.favoriteStackView.isHidden = true
+                } else {
+                    if (self.actorsStackMoved) {
+                        UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseOut, animations: {
+                            self.favoriteActorStackView.frame.origin.y += self.favoriteMoviesStackHeight
+                        })
+                        self.actorsStackMoved = false
+                    }
+                    self.favoriteStackView.isHidden = false
+                    self.favoriteMoviesCollectionView.reloadData()
+                }
             }
         }
         
+        self.movieListViewModel.noData.bind {
+            guard let noDataType = $0 else { return }
+            if (noDataType == .favoriteMovies) {
+                self.favoriteStackView.isHidden = true
+                self.actorsStackMoved = true
+                UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseOut, animations: {
+                    self.favoriteActorStackView.frame.origin.y -= self.favoriteMoviesStackHeight
+                })
+            }
+        }
+        
+        self.actorListViewModel.noData.bind {
+            guard let noData = $0 else { return }
+            if (noData == .favoriteActors) {
+                self.favoriteActorStackView.isHidden = true
+            }
+        }
+        
+        self.actorListViewModel.favoriteActors.bind { _ in 
+            self.favoriteActorsCollectionView.reloadData()
+        }
     }
     
-    // MARK:- objc & outlet functions for the viewController
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.movieListViewModel.getFavorites()
+        self.actorListViewModel.getFavoriteActors()
+    }
     
     // MARK:- functions for the viewController
-    
-    // MARK:- utility functions for the viewController
+    func setCollectionView(for collectionView: UICollectionView, with nib: UINib, and identifier: String) {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(nib, forCellWithReuseIdentifier: identifier)
+    }
 }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (collectionView == popularTitlesCollectionView) {
-            guard let movieViewModels =  movieListViewModel.popularMovies.value else { return 0 }
-            return movieViewModels.count
-        } else if (collectionView ==  favoritesCollectionView) {
-            guard let movieViewModels = movieListViewModel.favoriteMovies.value else { return 0 }
-            return movieViewModels.count
+            return self.movieListViewModel.getCountForDisplay(type: .popularMovies)
+        } else if (collectionView ==  favoriteMoviesCollectionView) {
+            return self.movieListViewModel.getCountForDisplay(type: .favoriteMovies)
+        } else if (collectionView == comingSoonMoviesCollectionView) {
+            return self.movieListViewModel.getCountForDisplay(type: .comingSoonMovies)
         } else {
-            guard let movieViewModels =  movieListViewModel.comingSoonMovies.value else { return 0 }
-            return movieViewModels.count
+            return self.actorListViewModel.getCountForDisplay(type: ActorListViewModel.ListType.favoriteActors)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if (collectionView == popularTitlesCollectionView) {
             guard let movieViewModels =  movieListViewModel.popularMovies.value else { return UICollectionViewCell() }
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleCollectionViewCell.description(), for: indexPath) as? TitleCollectionViewCell {
-                cell.setupCell(viewModel: movieViewModels[indexPath.item])
-                return cell
-            }
-        } else if (collectionView == favoritesCollectionView) {
+            return movieListViewModel.prepareCellForDisplay(collectionView: collectionView, type: .popularMovies, indexPath: indexPath, movieViewModel: movieViewModels[indexPath.item])
+            
+        } else if (collectionView == favoriteMoviesCollectionView) {
             guard let movieViewModels =  movieListViewModel.favoriteMovies.value else { return UICollectionViewCell() }
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleCollectionViewCell.description(), for: indexPath) as? TitleCollectionViewCell {
-                cell.setupCell(viewModel: movieViewModels[indexPath.item])
-                return cell
-            }
+            return movieListViewModel.prepareCellForDisplay(collectionView: collectionView, type: .favoriteMovies, indexPath: indexPath, movieViewModel: movieViewModels[indexPath.item])
+            
+        } else if (collectionView == comingSoonMoviesCollectionView) {
+            guard let movieViewModels =  movieListViewModel.comingSoonMovies.value else { return UICollectionViewCell() }
+            return movieListViewModel.prepareCellForDisplay(collectionView: collectionView, type: .comingSoonMovies, indexPath: indexPath, movieViewModel: movieViewModels[indexPath.item])
         } else {
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LargeTitleCollectionViewCell.description(), for: indexPath) as? LargeTitleCollectionViewCell {
-                guard let movieViewModels =  movieListViewModel.comingSoonMovies.value else { return UICollectionViewCell() }
-                cell.setupCell(viewModel: movieViewModels[indexPath.item])
-                return cell
-            }
+            guard let actorViewModels =  actorListViewModel.favoriteActors.value else { return UICollectionViewCell() }
+            return self.actorListViewModel.prepareCellForDisplay(collectionView: collectionView, indexPath: indexPath, actorViewModel: actorViewModels[indexPath.item], withFavorite: false)
         }
-        fatalError()
     }
     
-    //    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-    //        if (collectionView == popularTitlesCollectionView) {
-    //            guard let movieViewModels =  movieListViewModel.popularMovies.value else { fatalError() }
-    //            if (indexPath.item == movieViewModels.count - 1) {
-    ////                self.movieListViewModel.getMoreTitles(type: )
-    //            }
-    //        }
-    //    }
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if (collectionView == popularTitlesCollectionView) {
+            guard let movieViewModels =  movieListViewModel.popularMovies.value else { return }
+            if (indexPath.item == movieViewModels.count - 2) {
+                self.movieListViewModel.getMoreTitles(type: .popularMovies)
+            }
+        } else if (collectionView == comingSoonMoviesCollectionView) {
+            guard let movieViewModels = movieListViewModel.comingSoonMovies.value else { return }
+            if (indexPath.item == movieViewModels.count - 2) {
+                self.movieListViewModel.getMoreTitles(type: .comingSoonMovies)
+            }
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if (collectionView == popularTitlesCollectionView || collectionView == favoritesCollectionView) {
-            let columns: CGFloat = 3
-            
-            let collectionViewWidth = collectionView.bounds.width
-            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
-            
-            let adjustedWidth = collectionViewWidth - (flowLayout.minimumLineSpacing * (columns - 1))
-            let width = floor(adjustedWidth * 1.25 / columns)
-            return CGSize(width: width, height: TitleCollectionViewCell().cellHeight)
+        if (collectionView == popularTitlesCollectionView || collectionView == favoriteMoviesCollectionView) {
+            return collectionView.getSizeForHorizontalCollectionView(columns: 2.4, height: TitleCollectionViewCell().cellHeight)
+        } else if (collectionView == comingSoonMoviesCollectionView) {
+            return collectionView.getSizeForHorizontalCollectionView(columns: 1, height: LargeTitleCollectionViewCell().cellHeight)
         } else {
-            let columns: CGFloat = 1
-            
-            let collectionViewWidth = collectionView.bounds.width
-            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
-            
-            let adjustedWidth = collectionViewWidth - (flowLayout.minimumLineSpacing * (columns - 1))
-            var width = floor(adjustedWidth * 0.95 / columns)
-            width = min(width, 450)
-            
-            return CGSize(width: width, height: LargeTitleCollectionViewCell().cellHeight)
+            return collectionView.getSizeForHorizontalCollectionView(columns: 2.5, height: ActorCollectionViewCell().displayCellHeight)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        if (collectionView == favoritesCollectionView) {
-            let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [self] action in
-                guard let movieViewModels =  movieListViewModel.favoriteMovies.value else { return nil }
-                let delete = UIAction(title: "Remove", image: UIImage(systemName: "trash.fill"), identifier: nil) { action in
-                    self.movieListViewModel.favoriteRemoved(for: movieViewModels[indexPath.item])
-                }
-                return UIMenu(title: "", image: nil, identifier: nil, children: [delete])
-            }
-            return configuration
+        var collectionType: MovieListViewModel.ListType = .comingSoonMovies
+        var movieModel = MovieViewModel(meta: nil)
+        if (collectionView == popularTitlesCollectionView) {
+            collectionType = .popularMovies
+            guard let movieViewModels =  movieListViewModel.popularMovies.value else { return nil}
+            movieModel = movieViewModels[indexPath.item]
+        } else if (collectionView == comingSoonMoviesCollectionView) {
+            guard let movieViewModels =  movieListViewModel.comingSoonMovies.value else { return nil}
+            movieModel = movieViewModels[indexPath.item]
+        } else if (collectionView == favoriteMoviesCollectionView) {
+            guard let movieViewModels =  movieListViewModel.favoriteMovies.value else { return nil}
+            movieModel = movieViewModels[indexPath.item]
+            collectionType = .favoriteMovies
         }
-        return nil
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [self] action in
+            let delete = UIAction(title: collectionType.getOptionName, image: UIImage(systemName: collectionType.symbol), identifier: nil) { action in
+                self.movieListViewModel.titleRemoved(for: movieModel, type: collectionType)
+            }
+            return UIMenu(title: "", image: nil, identifier: nil, children: [delete])
+        }
+        return configuration
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -177,7 +222,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
         guard let movieDetailVC = self.storyboard?.instantiateViewController(identifier: MovieDetailViewController.description()) as? MovieDetailViewController else { return }
         movieDetailVC.viewModel = movieModel
+        movieDetailVC.movieListViewModel = self.movieListViewModel
         self.navigationController?.pushViewController(movieDetailVC, animated: true)
     }
 }
-
