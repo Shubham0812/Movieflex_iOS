@@ -4,6 +4,7 @@
 Based on the requests that I got in my Instagram account - [**@shubham_iosdev**](https://www.instagram.com/shubham_iosdev/).
 
 I decided to create a UIKit based iOS app with MVVM architecture with hopes that it'll help out iOS developers in learning MVVM, and how to use it to maintain a clean and simple architecture.
+Using MVVM in an iOS project certainly improves things by decoupling modules, and I love using it in my projects. 
 
 ## Introduction
 It's a good practice to keep a simple and organized architecture. There are various practices, techniques, patterns that are used by developers for their project, and it's perfectly fine to have your own unique architecture. 
@@ -13,6 +14,11 @@ The end goal of the usage of any design, architectural patterns is usually the s
 * Completing any new task/requirement should not break any existing features.
 * It should enable individual development & deployement of features.
 * Components/Modules should be testable without dependencies.
+
+## Screenshots
+![home screen](https://raw.githubusercontent.com/Shubham0812/Movieflex_iOS/master/Movieflex/Assets/1.png)
+![search for movies](https://raw.githubusercontent.com/Shubham0812/Movieflex_iOS/master/Movieflex/Assets/2.png)
+![movie detail](https://raw.githubusercontent.com/Shubham0812/Movieflex_iOS/master/Movieflex/Assets/3.png)
 
 
 ## Languages / Frameworks Used
