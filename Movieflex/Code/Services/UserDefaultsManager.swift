@@ -9,13 +9,7 @@
 import Foundation
 
 
-class UserDefaultsManager {
-    
-    enum Favorites: String {
-        case favoriteActors
-        case favoriteMovies
-    }
-    
+class UserDefaultsManager {    
     // MARK:- getter functions
     func getPopularTitlesList() -> [String] {
         guard let titles = UserDefaults.standard.array(forKey: "popularTitles") as? [String]  else { return [] }

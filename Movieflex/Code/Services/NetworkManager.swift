@@ -15,6 +15,7 @@ enum APIError: String {
     case decodingError
 }
 
+// If the API Response is 429 or just doesn't work -> Create a new token with your credentials here -https://rapidapi.com/apidojo/api/imdb8/ . Replace the apiKey and the APIs will work again
 enum APIs: URLRequestConvertible  {
     
     // MARK:- cases containing APIs
@@ -25,12 +26,10 @@ enum APIs: URLRequestConvertible  {
     case getTitleDetails(titleId: String)
     case getCastForTitle(titleId: String)
     case getFilmsForActor(actorId: String)
-    case getActorDetails(actorId: String)
-    
     
     // MARK:- variables
     static let endpoint = URL(string: "https://imdb8.p.rapidapi.com")!
-    static let apiKey = "edab62cc8amsh92b71b902471668p16e9b3jsn432c947b0bf5"
+    static let apiKey = "77ccd8d5f7msh7f3a5afb1807e96p1334e6jsne7d06c6aa719"
     static let apiHost = "imdb8.p.rapidapi.com"
     
     var path: String {
@@ -49,8 +48,6 @@ enum APIs: URLRequestConvertible  {
             return "/title/get-top-cast"
         case .getFilmsForActor(_):
             return "/actors/get-all-filmography"
-        case .getActorDetails(_):
-            return "/actors/get-bio"
         }
     }
     
@@ -83,8 +80,6 @@ enum APIs: URLRequestConvertible  {
         case .getCastForTitle(let titleId):
             parameters["tconst"] = titleId
         case .getFilmsForActor(let actorId):
-            parameters["nconst"] = actorId
-        case .getActorDetails(let actorId):
             parameters["nconst"] = actorId
         default: break
         }
@@ -271,10 +266,6 @@ struct NetworkManager {
                 }
             }
         }
-    }
-    
-    func getDetailsForActor(actorId: String) {
-        
     }
 }
 
