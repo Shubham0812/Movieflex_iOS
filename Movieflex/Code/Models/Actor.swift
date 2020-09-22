@@ -8,17 +8,9 @@
 
 import Foundation
 
-struct Actor: Decodable {
-    let name: String
-    let birthDate: String
-    let birthPlace: String
-    let gender: String
-    let heightCentimeters: Int
-}
-
 struct ActorFilms: Decodable {
     let id: String
-    let base: ActorBase
+    let base: ActorBase?
     let filmography: [ActorFilmography]
 }
 
@@ -32,7 +24,7 @@ struct ActorFilmography: Decodable {
     let category: String
     let characters: [String]?
     let image: TitlePoster?
-    let status: String
+    let status: String?
     let title: String
     let titleType: String
     let year: Int?

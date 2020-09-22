@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// I've created this for learning, Bascially you can use @IBDesignable and @IBInspectable to create views and properties that can be rendered with modifications directly into the storyboard
 @IBDesignable class Profile: UIView {
     
     // MARK:- outlets for the view

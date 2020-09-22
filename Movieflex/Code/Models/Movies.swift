@@ -86,18 +86,11 @@ struct DecodedTitleMetaData: Decodable {
 // Title Detail
 struct TitleDetail: Decodable {
     let id: String
-    let title: TitleData
     let releaseDate: String
-    let plotOutline: TitlePlot
-    
-    
-    struct TitleData: Decodable {
-        let runningTimeInMinutes: Double
-        let year: Int
-    }
-    
+    let plotOutline: TitlePlot?
+        
     struct TitlePlot: Decodable {
-        let author: String
+        let author: String?
         let text: String
     }
 }

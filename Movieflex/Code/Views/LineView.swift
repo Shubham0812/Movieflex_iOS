@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Another way of creating @IBDesignables is without using the custom xib file, create properties and modify it directly, whereever you use this class in the storyboards.
 @IBDesignable class LineView: UIView {
     
     // MARK:- variables for the view
