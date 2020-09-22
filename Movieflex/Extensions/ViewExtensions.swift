@@ -30,6 +30,7 @@ extension UIView {
     }
 }
 
+/// For attaching custom views
 extension UIView {
     @discardableResult
     func fromNib<T : UIView>() -> T? {
