@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TitleCollectionViewCell: UICollectionViewCell {
+class TitleCollectionViewCell: UICollectionViewCell, ComponentShimmers {
     
     // MARK:- outlets for the cell
     @IBOutlet weak var containerView: UIView!
@@ -16,19 +16,21 @@ class TitleCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var movieGenreLabel: UILabel!
     
-    
     // MARK:- variables for the cell
     override class func description() -> String {
         return "TitleCollectionViewCell"
     }
     
-    let dissolveDuration: TimeInterval = 0.2
     let cellHeight: CGFloat = 240
+    let cornerRadius: CGFloat = 12
+    
+    let animationDuration: Double = 0.25
     var shimmer: ShimmerLayer = ShimmerLayer()
     
     // MARK:- lifeCycle methods for the cell
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.hideViews()
         
         self.containerView.setCornerRadius(radius: 12)
         self.moviePosterImageView.setCornerRadius(radius: 12)
@@ -36,13 +38,38 @@ class TitleCollectionViewCell: UICollectionViewCell {
         self.moviePosterImageView.setBorder(with: UIColor.label.withAlphaComponent(0.15), 2)
     }
     
-    // MARK:- functions for the cell
-    func setupCell(viewModel: MovieViewModel) {
+    // MARK:- delegate functions for collectionView
+    func hideViews() {
+        ViewAnimationFactory.makeEaseOutAnimation(duration: animationDuration, delay: 0) {
+            self.moviePosterImageView.setOpacity(to: 0)
+            self.movieTitleLabel.setOpacity(to: 0)
+            self.movieGenreLabel.setOpacity(to: 0)
+        }
+    }
+    
+    func showViews() {
+        ViewAnimationFactory.makeEaseOutAnimation(duration: animationDuration, delay: 0) {
+            self.moviePosterImageView.setOpacity(to: 1)
+            self.movieTitleLabel.setOpacity(to: 1)
+            self.movieGenreLabel.setOpacity(to: 1)
+        }
+    }
+    
+    func setShimmer() {
         DispatchQueue.main.async { [unowned self] in
             shimmer.removeLayerIfExists(self)
             shimmer = ShimmerLayer(for: self.moviePosterImageView, cornerRadius: 12)
             self.layer.addSublayer(shimmer)
         }
+    }
+    
+    func removeShimmer() {
+        shimmer.removeFromSuperlayer()
+    }
+    
+    // MARK:- functions for the cell
+    func setupCell(viewModel: MovieViewModel) {
+        setShimmer()
         self.movieTitleLabel.text = viewModel.movieTitle
         self.movieGenreLabel.text = viewModel.movieGenres
         
@@ -51,7 +78,8 @@ class TitleCollectionViewCell: UICollectionViewCell {
                 guard let posterImage = $0 else { return }
                 DispatchQueue.main.async { [unowned self] in
                     moviePosterImageView.image = posterImage
-                    shimmer.removeFromSuperlayer()
+                    removeShimmer()
+                    showViews()
                 }
             }
         }

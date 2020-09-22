@@ -29,7 +29,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f4C-fB-hBS">
                         <rect key="frame" x="0.0" y="0.0" width="160" height="200"/>
                         <subviews>
-                            <view alpha="0.25" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yx1-CS-3Vx" customClass="LineView" customModule="Movieflex" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yx1-CS-3Vx" customClass="LineView" customModule="Movieflex" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="4" height="200"/>
                                 <color key="backgroundColor" systemColor="systemRedColor"/>
                                 <constraints>
@@ -42,11 +42,11 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TXg-yo-Ymk" customClass="Profile" customModule="Movieflex" customModuleProvider="target">
-                                <rect key="frame" x="16" y="20" width="58" height="58"/>
+                                <rect key="frame" x="16" y="20" width="58" height="64"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="58" id="CKb-76-GmM"/>
-                                    <constraint firstAttribute="height" constant="58" id="VB4-rP-C7r"/>
+                                    <constraint firstAttribute="height" constant="64" id="VB4-rP-C7r"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="borderAlpha">
@@ -55,26 +55,26 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                         <real key="value" value="4"/>
                                     </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="image" keyPath="profileImage" value="user"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shubham Singh" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CFm-nD-Mix">
-                                <rect key="frame" x="16" y="90" width="132" height="52"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CFm-nD-Mix">
+                                <rect key="frame" x="16" y="96" width="132" height="0.0"/>
                                 <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpc-gD-fAe">
-                                <rect key="frame" x="16" y="172" width="21" height="22"/>
+                                <rect key="frame" x="16" y="174" width="22.5" height="22"/>
                                 <color key="tintColor" systemColor="tertiaryLabelColor"/>
                                 <state key="normal" image="suit.heart" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font" weight="semibold">
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                    </preferredSymbolConfiguration>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="18" weight="semibold"/>
                                 </state>
+                                <connections>
+                                    <action selector="favoriteButtonPressed:" destination="gTV-IL-0wX" eventType="touchUpInside" id="ycj-BM-gBU"/>
+                                </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="42 movies" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5T8-Th-aXN">
-                                <rect key="frame" x="16" y="147" width="78" height="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5T8-Th-aXN">
+                                <rect key="frame" x="16" y="103" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" name="SFMono-Medium" family="SF Mono" pointSize="14"/>
                                 <color key="textColor" systemColor="secondaryLabelColor"/>
                                 <nil key="highlightedColor"/>
@@ -88,8 +88,8 @@
                             <constraint firstItem="TXg-yo-Ymk" firstAttribute="leading" secondItem="yx1-CS-3Vx" secondAttribute="trailing" constant="12" id="aI7-80-OhX"/>
                             <constraint firstItem="yx1-CS-3Vx" firstAttribute="top" secondItem="f4C-fB-hBS" secondAttribute="top" id="b4G-Js-QTO"/>
                             <constraint firstAttribute="trailing" secondItem="CFm-nD-Mix" secondAttribute="trailing" constant="12" id="hO7-8g-5eO"/>
-                            <constraint firstAttribute="bottom" secondItem="xpc-gD-fAe" secondAttribute="bottom" constant="6" id="lyB-Lr-ey5"/>
-                            <constraint firstItem="5T8-Th-aXN" firstAttribute="top" secondItem="CFm-nD-Mix" secondAttribute="bottom" constant="5" id="rqR-7H-1Mw"/>
+                            <constraint firstAttribute="bottom" secondItem="xpc-gD-fAe" secondAttribute="bottom" constant="4" id="lyB-Lr-ey5"/>
+                            <constraint firstItem="5T8-Th-aXN" firstAttribute="top" secondItem="CFm-nD-Mix" secondAttribute="bottom" constant="7" id="rqR-7H-1Mw"/>
                             <constraint firstItem="CFm-nD-Mix" firstAttribute="leading" secondItem="yx1-CS-3Vx" secondAttribute="trailing" constant="12" id="too-ey-bQa"/>
                             <constraint firstItem="TXg-yo-Ymk" firstAttribute="top" secondItem="f4C-fB-hBS" secondAttribute="top" constant="20" id="vIa-3a-sQA"/>
                             <constraint firstItem="yx1-CS-3Vx" firstAttribute="leading" secondItem="f4C-fB-hBS" secondAttribute="leading" id="wrh-22-orf"/>
@@ -105,12 +105,19 @@
                 <constraint firstItem="f4C-fB-hBS" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="nHL-0r-9Sx"/>
                 <constraint firstAttribute="bottom" secondItem="f4C-fB-hBS" secondAttribute="bottom" id="x0r-zd-wdi"/>
             </constraints>
+            <connections>
+                <outlet property="actorImageView" destination="TXg-yo-Ymk" id="MZz-iJ-7no"/>
+                <outlet property="actorMoviesLabel" destination="5T8-Th-aXN" id="ZGV-r6-UwL"/>
+                <outlet property="actorNameLabel" destination="CFm-nD-Mix" id="Dx1-hw-3V2"/>
+                <outlet property="containerView" destination="f4C-fB-hBS" id="zNU-Yg-71B"/>
+                <outlet property="favoriteButton" destination="xpc-gD-fAe" id="jUy-1R-4po"/>
+                <outlet property="lineView" destination="yx1-CS-3Vx" id="MRJ-Wd-3LB"/>
+            </connections>
             <point key="canvasLocation" x="-177" y="90"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="suit.heart" catalog="system" width="128" height="109"/>
-        <image name="user" width="106.66666412353516" height="106.66666412353516"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
