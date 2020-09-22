@@ -8,9 +8,10 @@
 
 import UIKit
 
+/// Just like the MovieViewModel, the ActorViewModel is a viewModel for Actors, consumed by the cells and ActorListViewModel
 struct ActorViewModel {
     
-    // MARK:- variable for the viewModel
+    // MARK:- variables for the viewModel
     let fileHandler: FileHandler
     let networkManager: NetworkManager
     
@@ -32,7 +33,7 @@ struct ActorViewModel {
     var actorImage: BoxBind<UIImage?> = BoxBind(nil)
     var isFavorite: BoxBind<Bool?> = BoxBind(nil)
     
-    // MARK:- initializers for the viewModel
+    // MARK:- initializer for the viewModel
     init(actorFilms: ActorFilms?, handler: FileHandler = FileHandler(), networkManager: NetworkManager = NetworkManager()) {
         guard let actorFilms = actorFilms, let actorbase = actorFilms.base else {
             self.id = ""

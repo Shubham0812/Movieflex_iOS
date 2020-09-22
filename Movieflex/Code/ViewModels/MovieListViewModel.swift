@@ -8,6 +8,8 @@
 
 import UIKit
 
+/// The ListViewModels are the ones that calls the APIs and provide the array data to the Viewcontrollers.
+/// There are three array of MovieViewModels here, denoted by the enum below.˘
 struct MovieListViewModel {
     enum ListType {
         case popularMovies
@@ -33,7 +35,7 @@ struct MovieListViewModel {
         }
     }
     
-    // MARK:- variable for the viewModel
+    // MARK:- variables for the viewModel
     let defaultsManager: UserDefaultsManager
     let networkManager: NetworkManager
     let fileHandler: FileHandler
@@ -49,7 +51,7 @@ struct MovieListViewModel {
     var noData: BoxBind<(ListType?)> = BoxBind(nil)
     var updateCollection: BoxBind<(ListType, IndexPath)?> = BoxBind(nil)
     
-    // MARK:- initializers for the viewModel
+    // MARK:- initializer for the viewModel
     init(defaultsManager: UserDefaultsManager, networkManager: NetworkManager, handler: FileHandler) {
         self.defaultsManager = defaultsManager
         self.networkManager = networkManager
@@ -135,7 +137,7 @@ struct MovieListViewModel {
 }
 
 
-// Methods for Diplaying data
+/// Methods for fetching data, used by the viewControllers
 extension MovieListViewModel {
     func getMoreTitles(type: ListType) {
         if (type == .comingSoonMovies) {
@@ -153,7 +155,6 @@ extension MovieListViewModel {
             if (viewModels.count == 0) {
                 self.noData.value = .favoriteMovies
             }
-            print("The updated view models", viewModels)
             self.favoriteMovies.value = viewModels
         } else if (type == .comingSoonMovies) {
             guard var viewModels = self.comingSoonMovies.value else { return }
@@ -172,6 +173,12 @@ extension MovieListViewModel {
             self.popularMovies.value = viewModels
             addPopularTitles(by: 1)
         }
+    }
+    
+    func filterModels(viewModels: inout [MovieViewModel], filterId: String ) {
+        viewModels = viewModels.filter( {
+            $0.id != filterId
+        })
     }
     
     func addPopularTitles(by count: Int) {
@@ -206,12 +213,7 @@ extension MovieListViewModel {
         }
     }
     
-    func filterModels(viewModels: inout [MovieViewModel], filterId: String ) {
-        viewModels = viewModels.filter( {
-            $0.id != filterId
-        })
-    }
-    
+    /// methods for displaying cell data
     func getCountForDisplay(type: ListType) -> Int {
         if (type == .comingSoonMovies) {
             guard let movieViewModels =  self.comingSoonMovies.value else { return 0 }

@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Another ViewModel for containg the details of a movie.
 struct MovieDetailViewModel {
     
     // MARK:- variable for the viewModel

@@ -8,11 +8,14 @@
 
 import UIKit
 
+/// The ListViewModels are the ones that calls the APIs and provide the array data to the Viewcontrollers.
+/// There are two array of ActorViewModels here, denoted by the enum below.˘
 struct ActorListViewModel {
     
     enum ListType {
         case actorsForMovie
         case favoriteActors
+        case favoritesAdded // for letting the VC's know that new favorites have been added
     }
     
     // MARK:- variable for the viewModel
@@ -36,7 +39,7 @@ struct ActorListViewModel {
     var actorsForMovie: BoxBind<[ActorViewModel]?> = BoxBind([ActorViewModel](repeating: ActorViewModel(actorFilms: nil), count: 5))
     var favoriteActors: BoxBind<[ActorViewModel]?> = BoxBind(nil)
     
-    // MARK:- initializers for the viewModel
+    // MARK:- initializer for the viewModel
     init(movieId: String = "", handler: FileHandler, networkManager: NetworkManager, defaultsManager: UserDefaultsManager) {
         self.defaultsManager = defaultsManager
         self.networkManager = networkManager
@@ -79,28 +82,44 @@ struct ActorListViewModel {
         let favorties = defaultsManager.getFavorites(type: favoriteType)
         if (favorties.isEmpty) {
             self.noData.value = .favoriteActors
-        }
-        DispatchQueue.global(qos: .default).async {
-            /// I don't like this at all, I wish they had given a way to pass mutiple actor ids at once. -_-
-            if let favoritesArray = self.favoriteActors.value {
-                if (favoritesArray.count == favorties.count) {
-                    return
+        } else {
+            self.noData.value = .favoritesAdded
+            DispatchQueue.global(qos: .default).async {
+                /// I don't like this at all, I wish they had given a way to pass mutiple actor ids at once -_-
+                /// I had a hard time deciding whether I should use this API at all.
+                if let favoritesArray = self.favoriteActors.value {
+                    if (favoritesArray.count == favorties.count) {
+                        return
+                    }
                 }
-            }
-            for cast in favorties {
-                networkManager.getMoviesForActor(actorId: cast) { res, error in
-                    guard let actorFilms = res else { return }
-                    if var actorsList = self.favoriteActors.value {
-                        actorsList.append(ActorViewModel(actorFilms: actorFilms))
-                        self.favoriteActors.value = actorsList
-                    } else {
-                        self.favoriteActors.value = [ActorViewModel(actorFilms: actorFilms)]
+                for cast in favorties {
+                    networkManager.getMoviesForActor(actorId: cast) { res, error in
+                        guard let actorFilms = res else { return }
+                        if var actorsList = self.favoriteActors.value {
+                            actorsList.append(ActorViewModel(actorFilms: actorFilms))
+                            self.favoriteActors.value = actorsList
+                        } else {
+                            self.favoriteActors.value = [ActorViewModel(actorFilms: actorFilms)]
+                        }
                     }
                 }
             }
         }
     }
     
+    func actorRemoved(for model: ActorViewModel) {
+        self.defaultsManager.removeFromFavorites(id: model.id, favorites: defaultsManager.getFavorites(type: favoriteType), type: favoriteType)
+        guard var viewModels = self.favoriteActors.value else { return }
+        viewModels = viewModels.filter( {
+            $0.id != model.id
+        })
+        if (viewModels.count == 0) {
+            self.noData.value = .favoriteActors
+        }
+        self.favoriteActors.value = viewModels
+    }
+    
+    // for displaying data
     func getCountForDisplay(type: ListType) -> Int {
         if (type == .actorsForMovie) {
             guard let actorViewModels =  self.actorsForMovie.value else { return 0 }
