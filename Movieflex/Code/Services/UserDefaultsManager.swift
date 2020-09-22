@@ -12,18 +12,18 @@ import Foundation
 class UserDefaultsManager {    
     // MARK:- getter functions
     func getPopularTitlesList() -> [String] {
-        guard let titles = UserDefaults.standard.array(forKey: "popularTitles") as? [String]  else { return [] }
-        return titles
+        guard let ids = UserDefaults.standard.array(forKey: "popularTitles") as? [String]  else { return [] }
+        return ids
     }
     
     func getComingSoonTitlesList() -> [String] {
-        guard let titles = UserDefaults.standard.array(forKey: "comingSoonTitles") as? [String]  else { return [] }
-        return titles
+        guard let ids = UserDefaults.standard.array(forKey: "comingSoonTitles") as? [String]  else { return [] }
+        return ids
     }
     
     func getFavorites(type: Favorites) -> [String] {
-        guard let titles = UserDefaults.standard.array(forKey: type.rawValue) as? [String]  else { return [] }
-        return titles
+        guard let ids = UserDefaults.standard.array(forKey: type.rawValue) as? [String]  else { return [] }
+        return ids
     }
     
     // MARK:- setter functions

@@ -29,7 +29,7 @@ enum APIs: URLRequestConvertible  {
     
     // MARK:- variables
     static let endpoint = URL(string: "https://imdb8.p.rapidapi.com")!
-    static let apiKey = "77ccd8d5f7msh7f3a5afb1807e96p1334e6jsne7d06c6aa719"
+    static let apiKey = "368e2cb67cmshd4bce4fa0f82566p1f6822jsn96c6394ecf75"
     static let apiHost = "imdb8.p.rapidapi.com"
     
     var path: String {
@@ -187,6 +187,7 @@ struct NetworkManager {
         Alamofire.request(APIs.getTitleMetaData(titleIds: titleIds)).validate().responseJSON { json in
             switch json.result {
             case .failure:
+                print("The API limit has expired, create a new free account. Sadly the API only supports 500 calls, you need to create a new Account and replace the apiKey variable above")
                 completion(nil, .apiError)
             case .success(let jsonData):
                 if let payload = try? JSONSerialization.data(withJSONObject: jsonData, options: .sortedKeys) {
@@ -229,6 +230,7 @@ struct NetworkManager {
         Alamofire.request(APIs.getCastForTitle(titleId: titleId)).validate().responseJSON { json in
             switch json.result {
             case .failure:
+                print("The API limit has expired, create a new free account. Sadly the API only supports 500 calls, you need to create a new Account and replace the apiKey variable in the APIs enum")
                 completion(nil, .apiError)
                 break
             case .success(let jsonData):

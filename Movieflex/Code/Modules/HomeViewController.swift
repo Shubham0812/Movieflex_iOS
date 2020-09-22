@@ -8,6 +8,7 @@
 
 import UIKit
 
+// If the API Response is 429 or just doesn't work -> Create a new token with your credentials here -https://rapidapi.com/apidojo/api/imdb8/ . Replace the apiKey and the APIs will work again
 class HomeViewController: UIViewController {
     
     // MARK:- outlets for the viewController
@@ -55,13 +56,11 @@ class HomeViewController: UIViewController {
         
         self.favoriteMoviesStackHeight = self.favoriteStackView.frame.height
         
-        print("The fav movies height", self.favoriteStackView.frame.height)
-        
-        
         self.movieListViewModel = MovieListViewModel(defaultsManager: defaultsManager, networkManager: networkManager, handler: fileHandler)
         self.searchViewModel = MovieSearchViewModel(handler: fileHandler, networkManager: networkManager, defaultsManager: defaultsManager)
         self.actorListViewModel = ActorListViewModel(handler: fileHandler, networkManager: networkManager, defaultsManager: defaultsManager)
         
+        /// bindings from the viewModels to update the View
         self.movieListViewModel.popularMovies.bind { _ in
             self.popularTitlesCollectionView.reloadData()
             self.visiblePaths.removeAll()
@@ -73,7 +72,6 @@ class HomeViewController: UIViewController {
         }
         
         self.movieListViewModel.favoriteMovies.bind { movies in
-            
             if let movies = movies {
                 if (movies.isEmpty) {
                     self.favoriteStackView.isHidden = true
@@ -94,10 +92,12 @@ class HomeViewController: UIViewController {
             guard let noDataType = $0 else { return }
             if (noDataType == .favoriteMovies) {
                 self.favoriteStackView.isHidden = true
-                self.actorsStackMoved = true
-                UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseOut, animations: {
-                    self.favoriteActorStackView.frame.origin.y -= self.favoriteMoviesStackHeight
-                })
+                if (!self.actorsStackMoved) {
+                    UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseOut, animations: {
+                        self.favoriteActorStackView.frame.origin.y -= self.favoriteMoviesStackHeight
+                    })
+                    self.actorsStackMoved = true
+                }
             }
         }
         
@@ -105,6 +105,8 @@ class HomeViewController: UIViewController {
             guard let noData = $0 else { return }
             if (noData == .favoriteActors) {
                 self.favoriteActorStackView.isHidden = true
+            } else {
+                self.favoriteActorStackView.isHidden = false
             }
         }
         
@@ -128,6 +130,7 @@ class HomeViewController: UIViewController {
     }
 }
 
+/// I've used four collections in this view.
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -185,6 +188,18 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        if (collectionView == favoriteActorsCollectionView) {
+            guard let actorViewModels = actorListViewModel.favoriteActors.value else { return nil }
+            let actorViewModel = actorViewModels[indexPath.item]
+            
+            let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [self] action in
+                let delete = UIAction(title: "Remove", image: UIImage(systemName: "trash.fill"), identifier: nil) { action in
+                    self.actorListViewModel.actorRemoved(for: actorViewModel)
+                }
+                return UIMenu(title: "", image: nil, identifier: nil, children: [delete])
+            }
+            return configuration
+        }
         var collectionType: MovieListViewModel.ListType = .comingSoonMovies
         var movieModel = MovieViewModel(meta: nil)
         if (collectionView == popularTitlesCollectionView) {

@@ -8,6 +8,9 @@
 
 import UIKit
 
+/// The rootTabViewController
+/// It currently has two tabs, feel free to create some exciting features and tell me about it :D
+
 class RootTabViewController: UITabBarController {
 
     // MARK:- variables for the viewController
