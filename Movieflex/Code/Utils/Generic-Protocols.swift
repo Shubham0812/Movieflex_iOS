@@ -9,8 +9,8 @@
 import UIKit
 
 enum Favorites: String {
-    case favoriteActors
-    case favoriteMovies
+    case favoriteActors = "favoriteActors"
+    case favoriteMovies = "favoriteMovies"
 }
 
 struct Generic {
@@ -26,7 +26,7 @@ struct Generic {
 }
 
 
-protocol CollectionViewShimmers {
+protocol ComponentShimmers {
     var animationDuration: Double { get }
 
     func hideViews()
@@ -41,3 +41,4 @@ protocol Likeable {
     func likePressed(id: String) -> Bool
     func checkIfFavorite(id: String) -> Bool
 }
+
