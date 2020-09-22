@@ -11,12 +11,13 @@ import UIKit
 @IBDesignable class Profile: UIView {
     
     // MARK:- outlets for the view
-    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var imageView: UIImageView!
     
     // MARK:- variables for the view
     @IBInspectable var cornerRadius: CGFloat = 24 {
         didSet {
             self.layer.cornerRadius = cornerRadius
+            self.imageView.layer.cornerRadius = cornerRadius
         }
     }
     
@@ -34,7 +35,7 @@ import UIKit
     
     @IBInspectable var profileImage: UIImage = UIImage() {
         didSet {
-            self.profileImageView.image = profileImage
+            self.imageView.image = profileImage
         }
     }
     
@@ -52,10 +53,10 @@ import UIKit
         setupView()
     }
     
+    // for rendering to the Storyboard
     override func prepareForInterfaceBuilder() {
         setupView()
     }
-    
     
     // MARK:- functions for the viewController
     func setupView() {
@@ -63,7 +64,7 @@ import UIKit
         self.layer.borderColor = borderColor.withAlphaComponent(borderAlpha).cgColor
         self.layer.borderWidth = 2
         
-        self.profileImageView.image = profileImage
-        self.profileImageView.layer.cornerRadius = cornerRadius
+        self.imageView.image = profileImage
+        self.imageView.layer.cornerRadius = cornerRadius
     }
 }

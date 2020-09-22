@@ -17,6 +17,12 @@ import UIKit
         }
     }
     
+    var background: UIColor = UIColor.tertiaryLabel {
+        didSet {
+            self.backgroundColor = background
+        }
+    }
+    
     // MARK:- Initializers for the view
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,6 +41,7 @@ import UIKit
     // MARK:- functions for the viewController
     func setupView() {
         self.layer.cornerRadius = cornerRadius
+        self.backgroundColor = background
     }
 }
 
