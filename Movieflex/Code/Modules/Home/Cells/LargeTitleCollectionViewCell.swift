@@ -59,9 +59,9 @@ class LargeTitleCollectionViewCell: UICollectionViewCell, ComponentShimmers {
     
     func setShimmer() {
         DispatchQueue.main.async { [unowned self] in
-            shimmer.removeLayerIfExists(self)
-            shimmer = ShimmerLayer(for: self.moviePosterImageView, cornerRadius: 12)
-            self.layer.addSublayer(shimmer)
+            self.shimmer.removeLayerIfExists(self)
+            self.shimmer = ShimmerLayer(for: self.moviePosterImageView, cornerRadius: 12)
+            self.layer.addSublayer(self.shimmer)
         }
     }
     
@@ -81,9 +81,9 @@ class LargeTitleCollectionViewCell: UICollectionViewCell, ComponentShimmers {
             viewModel.moviePosterImage.bind {
                 guard let posterImage = $0 else { return }
                 DispatchQueue.main.async { [unowned self] in
-                    moviePosterImageView.image = posterImage
-                    removeShimmer()
-                    showViews()
+                    self.moviePosterImageView.image = posterImage
+                    self.removeShimmer()
+                    self.showViews()
                 }
             }
         }
