@@ -121,6 +121,7 @@ struct NetworkManager {
         Alamofire.request(APIs.titleautocomplete(query: query)).validate().responseJSON { json in
             switch json.result {
             case .failure:
+                print("The API limit has expired, create a new free account. Sadly the API only supports 500 calls, you need to create a new Account and replace the apiKey variable above")
                 completion(nil, .apiError)
             case .success(let jsonData):
                 if let payload = jsonData as? [String:Any], let arrayData = payload["d"], let jsonData = try? JSONSerialization.data(withJSONObject: arrayData, options: .sortedKeys)  {
@@ -143,6 +144,7 @@ struct NetworkManager {
         Alamofire.request(APIs.popularTitles(regionCode: "IN")).validate().responseJSON { json in
             switch json.result {
             case .failure:
+                print("The API limit has expired, create a new free account. Sadly the API only supports 500 calls, you need to create a new Account and replace the apiKey variable above")
                 completion(nil, .apiError)
                 break
             case .success(let jsonData):
