@@ -82,9 +82,9 @@ class ActorCollectionViewCell: UICollectionViewCell, ComponentShimmers {
     func setShimmer() {
         DispatchQueue.main.async { [unowned self] in
             self.lineView.background = Generic.shared.getRandomColor().withAlphaComponent(0.25)
-            shimmer.removeLayerIfExists(self)
-            shimmer = ShimmerLayer(for: self.containerView, cornerRadius: cornerRadius)
-            self.layer.addSublayer(shimmer)
+            self.shimmer.removeLayerIfExists(self)
+            self.shimmer = ShimmerLayer(for: self.containerView, cornerRadius: self.cornerRadius)
+            self.layer.addSublayer(self.shimmer)
         }
     }
     
@@ -116,7 +116,7 @@ class ActorCollectionViewCell: UICollectionViewCell, ComponentShimmers {
             viewModel.actorImage.bind {
                 guard let actorImage = $0 else { return }
                 DispatchQueue.main.async { [unowned self] in
-                    actorImageView.imageView.image = actorImage
+                    self.actorImageView.imageView.image = actorImage
                     self.removeShimmer()
                     self.showViews()
                 }
