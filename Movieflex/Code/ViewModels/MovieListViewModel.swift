@@ -91,9 +91,9 @@ struct MovieListViewModel {
             DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
                 var moviesList: [String] = [String]()
                 if (type == .comingSoonMovies) {
-                    moviesList = defaultsManager.getComingSoonTitlesList()
+                    moviesList = self.defaultsManager.getComingSoonTitlesList()
                 } else if (type == .popularMovies) {
-                    moviesList = defaultsManager.getPopularTitlesList()
+                    moviesList = self.defaultsManager.getPopularTitlesList()
                 }
                 if (!moviesList.isEmpty) {
                     let titleIds = moviesList[offset..<limit]
@@ -189,7 +189,7 @@ extension MovieListViewModel {
         let moviesList = defaultsManager.getPopularTitlesList()
         let titleIds = moviesList[offset..<limit]
         DispatchQueue.global().async {
-            networkManager.getTitlesMetaData(titleIds: Array(titleIds)) { res, error in
+            self.networkManager.getTitlesMetaData(titleIds: Array(titleIds)) { res, error in
                 guard let titlesMetaData = res, var viewModels = self.popularMovies.value else { return }
                 viewModels.append(contentsOf: titlesMetaData.map { MovieViewModel(meta: $0) })
                 self.popularMovies.value = viewModels
@@ -205,7 +205,7 @@ extension MovieListViewModel {
         let moviesList = defaultsManager.getComingSoonTitlesList()
         let titleIds = moviesList[offset..<limit]
         DispatchQueue.global().async {
-            networkManager.getTitlesMetaData(titleIds: Array(titleIds)) { res, error in
+            self.networkManager.getTitlesMetaData(titleIds: Array(titleIds)) { res, error in
                 guard let titlesMetaData = res, var viewModels = self.comingSoonMovies.value else { return }
                 viewModels.append(contentsOf: titlesMetaData.map { MovieViewModel(meta: $0) })
                 self.comingSoonMovies.value = viewModels
