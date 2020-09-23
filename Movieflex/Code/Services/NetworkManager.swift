@@ -105,10 +105,10 @@ struct NetworkManager {
             case .failure:
                 completion(nil, .apiError)
             case .success(let imageData):
-                guard let image = UIImage(data: imageData), let compressedData = image.jpegData(compressionQuality: imageCompressionScale) else { return }
+                guard let image = UIImage(data: imageData), let compressedData = image.jpegData(compressionQuality: self.imageCompressionScale) else { return }
                 do {
-                    try compressedData.write(to: fileHandler.getPathForImage(id: id))
-                    completion(fileHandler.getPathForImage(id: id), nil)
+                    try compressedData.write(to: self.fileHandler.getPathForImage(id: id))
+                    completion(self.fileHandler.getPathForImage(id: id), nil)
                 } catch {
                     print(error)
                     completion(nil, .decodingError)
