@@ -53,12 +53,12 @@ struct ActorListViewModel {
     func getActorsForMovie() {
         networkManager.getCastForTitle(titleId: movieId) { res, error in
             guard let casts = res else { return }
-            let initialDisplayCasts = casts[offset..<limit]
+            let initialDisplayCasts = casts[self.offset..<self.limit]
             
             DispatchQueue.global(qos: .default).async {
                 /// I don't like this at all, I wish they had given a way to pass mutiple actor ids at once. -_-
                 for cast in initialDisplayCasts {
-                    networkManager.getMoviesForActor(actorId: cast) { res, error in
+                    self.networkManager.getMoviesForActor(actorId: cast) { res, error in
                         guard let actorFilms = res else { return }
                         if (!self.prefetch.value){
                             DispatchQueue.main.async {
@@ -93,7 +93,7 @@ struct ActorListViewModel {
                     }
                 }
                 for cast in favorties {
-                    networkManager.getMoviesForActor(actorId: cast) { res, error in
+                    self.networkManager.getMoviesForActor(actorId: cast) { res, error in
                         guard let actorFilms = res else { return }
                         if var actorsList = self.favoriteActors.value {
                             actorsList.append(ActorViewModel(actorFilms: actorFilms))

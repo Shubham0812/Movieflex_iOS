@@ -35,7 +35,7 @@ final class ShimmerLayer: CAGradientLayer {
         self.cornerRadius = cornerRadius
         
         DispatchQueue.main.async { [unowned self] in 
-            startAnimation()
+            self.startAnimation()
         }
     }
     

@@ -63,7 +63,7 @@ struct ActorViewModel {
         } else {
             networkManager.downloadMoviePoster(url: self.actorImageUrl, id: self.id) { res, error in
                 if (error == .none) {
-                    self.actorImage.value = UIImage(contentsOfFile: fileHandler.getPathForImage(id: id).path)
+                    self.actorImage.value = UIImage(contentsOfFile: self.fileHandler.getPathForImage(id: self.id).path)
                 }
             }
         }

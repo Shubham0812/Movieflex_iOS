@@ -55,7 +55,7 @@ class MovieDetailViewController: UIViewController {
         viewModel.moviePosterImage.bind {
             guard let posterImage = $0 else { return }
             DispatchQueue.main.async { [unowned self] in
-                moviePosterImageView.image = posterImage
+                self.moviePosterImageView.image = posterImage
             }
         }
         

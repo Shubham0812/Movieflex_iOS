@@ -105,10 +105,10 @@ struct NetworkManager {
             case .failure:
                 completion(nil, .apiError)
             case .success(let imageData):
-                guard let image = UIImage(data: imageData), let compressedData = image.jpegData(compressionQuality: imageCompressionScale) else { return }
+                guard let image = UIImage(data: imageData), let compressedData = image.jpegData(compressionQuality: self.imageCompressionScale) else { return }
                 do {
-                    try compressedData.write(to: fileHandler.getPathForImage(id: id))
-                    completion(fileHandler.getPathForImage(id: id), nil)
+                    try compressedData.write(to: self.fileHandler.getPathForImage(id: id))
+                    completion(self.fileHandler.getPathForImage(id: id), nil)
                 } catch {
                     print(error)
                     completion(nil, .decodingError)
@@ -126,7 +126,7 @@ struct NetworkManager {
             case .success(let jsonData):
                 if let payload = jsonData as? [String:Any], let arrayData = payload["d"], let jsonData = try? JSONSerialization.data(withJSONObject: arrayData, options: .sortedKeys)  {
                     do {
-                        let titles = try jsonDecoder.decode([SearchIds].self, from: jsonData)
+                        let titles = try self.jsonDecoder.decode([SearchIds].self, from: jsonData)
                         let titleIds = titles.map { $0.id }
                         completion(titleIds, nil)
                     } catch {
@@ -150,7 +150,7 @@ struct NetworkManager {
             case .success(let jsonData):
                 if let jsonData = try? JSONSerialization.data(withJSONObject: jsonData, options: .sortedKeys)  {
                     do {
-                        let popularTitles = try jsonDecoder.decode([String].self, from: jsonData)
+                        let popularTitles = try self.jsonDecoder.decode([String].self, from: jsonData)
                         completion(popularTitles.map { $0.components(separatedBy: "/")[2] }, nil)
                     } catch {
                         print(error)
@@ -172,7 +172,7 @@ struct NetworkManager {
             case .success(let jsonData):
                 if let jsonData = try? JSONSerialization.data(withJSONObject: jsonData, options: .sortedKeys)  {
                     do {
-                        let popularTitles = try jsonDecoder.decode([String].self, from: jsonData)
+                        let popularTitles = try self.jsonDecoder.decode([String].self, from: jsonData)
                         completion(popularTitles.map { $0.components(separatedBy: "/")[2] }, nil)
                     } catch {
                         print(error)
@@ -194,7 +194,7 @@ struct NetworkManager {
             case .success(let jsonData):
                 if let payload = try? JSONSerialization.data(withJSONObject: jsonData, options: .sortedKeys) {
                     do {
-                        let decodedData = try jsonDecoder.decode(DecodedTitleMetaData.self, from: payload)
+                        let decodedData = try self.jsonDecoder.decode(DecodedTitleMetaData.self, from: payload)
                         completion(decodedData.titlesMetaData, nil)
                     } catch {
                         print(error)
@@ -215,7 +215,7 @@ struct NetworkManager {
             case .success(let jsonData):
                 if let payload = try? JSONSerialization.data(withJSONObject: jsonData, options: .sortedKeys) {
                     do {
-                        let titleDetails = try jsonDecoder.decode(TitleDetail.self, from: payload)
+                        let titleDetails = try self.jsonDecoder.decode(TitleDetail.self, from: payload)
                         completion(titleDetails, nil)
                     } catch {
                         print(error)
@@ -238,7 +238,7 @@ struct NetworkManager {
             case .success(let jsonData):
                 if let jsonData = try? JSONSerialization.data(withJSONObject: jsonData, options: .sortedKeys)  {
                     do {
-                        let titleCast = try jsonDecoder.decode([String].self, from: jsonData)
+                        let titleCast = try self.jsonDecoder.decode([String].self, from: jsonData)
                         completion(titleCast.map { $0.components(separatedBy: "/")[2] }, nil)
                     } catch {
                         print(error)
@@ -259,7 +259,7 @@ struct NetworkManager {
             case .success(let jsonData):
                 if let payload = try? JSONSerialization.data(withJSONObject: jsonData, options: .sortedKeys) {
                     do {
-                        let actorFilms = try jsonDecoder.decode(ActorFilms.self, from: payload)
+                        let actorFilms = try self.jsonDecoder.decode(ActorFilms.self, from: payload)
                         completion(actorFilms, nil)
                     } catch {
                         print(error)

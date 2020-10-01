@@ -114,7 +114,7 @@ struct MovieViewModel {
         } else {
             networkManager.downloadMoviePoster(url: self.moviePosterUrl, id: self.id) { res, error in
                 if (error == .none) {
-                    self.moviePosterImage.value = UIImage(contentsOfFile: fileHandler.getPathForImage(id: id).path)
+                    self.moviePosterImage.value = UIImage(contentsOfFile: self.fileHandler.getPathForImage(id: self.id).path)
                 }
             }
         }

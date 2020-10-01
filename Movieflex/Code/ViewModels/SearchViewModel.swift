@@ -38,7 +38,7 @@ struct MovieSearchViewModel {
                     self.searchedTitles.value = nil
                     return
                 }
-                networkManager.getTitlesMetaData(titleIds: titleIds) { res, error in
+                self.networkManager.getTitlesMetaData(titleIds: titleIds) { res, error in
                     guard let titlesMetaData = res else {
                         self.searchedTitles.value = nil
                         return
