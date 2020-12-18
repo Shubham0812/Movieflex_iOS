@@ -36,7 +36,8 @@ struct MovieViewModel {
     }()
     
     var moviePosterUrl: URL {
-        guard let url = URL(string: titleInfo.image.url) else { return URL(string: "")! }
+        guard let image = titleInfo.image?.url else { return URL(string: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMZ-kE94eLRVXkJaPCaO-2SJUcoPi7z5Hb7g&usqp=CAU")! }
+        guard let url = URL(string: image) else { return URL(string: "")! }
         return url
     }
     

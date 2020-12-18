@@ -24,7 +24,7 @@ struct TitleInfo: Decodable {
     let title: String
     let titleType: String
     let year: Int?
-    let image: TitlePoster
+    let image: TitlePoster?
 }
 
 struct TitleRating: Decodable {
