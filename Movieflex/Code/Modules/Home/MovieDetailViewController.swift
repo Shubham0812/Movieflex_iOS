@@ -52,10 +52,12 @@ class MovieDetailViewController: UIViewController {
         self.actorCollectionView.register(ActorCollectionViewCell().asNib(), forCellWithReuseIdentifier: ActorCollectionViewCell.description())
         
         guard let viewModel = self.viewModel else { return }
-        viewModel.moviePosterImage.bind {
+        viewModel.moviePosterImagePath.bind {
             guard let posterImage = $0 else { return }
             DispatchQueue.main.async { [unowned self] in
-                self.moviePosterImageView.image = posterImage
+                let downsampledImage = Downsampler.downsample(imageAt: posterImage, to: self.moviePosterImageView.bounds.size)
+                self.moviePosterImageView.image = downsampledImage
+                            
             }
         }
         

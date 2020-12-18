@@ -78,10 +78,11 @@ class LargeTitleCollectionViewCell: UICollectionViewCell, ComponentShimmers {
         self.movieReleaseLabel.text = viewModel.releaseDate
         
         DispatchQueue.global().async {
-            viewModel.moviePosterImage.bind {
+            viewModel.moviePosterImagePath.bind {
                 guard let posterImage = $0 else { return }
                 DispatchQueue.main.async { [unowned self] in
-                    self.moviePosterImageView.image = posterImage
+                    let downsampledImage = Downsampler.downsample(imageAt: posterImage, to: self.moviePosterImageView.bounds.size)
+                    self.moviePosterImageView.image = downsampledImage
                     self.removeShimmer()
                     self.showViews()
                 }

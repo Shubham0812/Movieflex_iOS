@@ -28,6 +28,7 @@
 		51036A3F251129A200C6E80B /* JosefinSlab-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 51036A3B251129A200C6E80B /* JosefinSlab-Regular.ttf */; };
 		51036A40251129A200C6E80B /* JosefinSlab-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 51036A3C251129A200C6E80B /* JosefinSlab-Bold.ttf */; };
 		51036A422512094100C6E80B /* Movies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51036A412512094000C6E80B /* Movies.swift */; };
+		5189361C258CA0FD008478E0 /* Downsampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5189361B258CA0FD008478E0 /* Downsampler.swift */; };
 		51FC0B362512717700DE1D11 /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FC0B352512717700DE1D11 /* MovieViewModel.swift */; };
 		51FC0B382512725700DE1D11 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FC0B372512725700DE1D11 /* UserDefaultsManager.swift */; };
 		51FC0B3C25128BFA00DE1D11 /* TitleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FC0B3A25128BFA00DE1D11 /* TitleCollectionViewCell.swift */; };
@@ -121,6 +122,7 @@
 		51036A3B251129A200C6E80B /* JosefinSlab-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSlab-Regular.ttf"; sourceTree = "<group>"; };
 		51036A3C251129A200C6E80B /* JosefinSlab-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JosefinSlab-Bold.ttf"; sourceTree = "<group>"; };
 		51036A412512094000C6E80B /* Movies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movies.swift; sourceTree = "<group>"; };
+		5189361B258CA0FD008478E0 /* Downsampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downsampler.swift; sourceTree = "<group>"; };
 		51FC0B352512717700DE1D11 /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
 		51FC0B372512725700DE1D11 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		51FC0B3A25128BFA00DE1D11 /* TitleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 			isa = PBXGroup;
 			children = (
 				F361ED8025177F2700540B00 /* Generic-Protocols.swift */,
+				5189361B258CA0FD008478E0 /* Downsampler.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -643,6 +646,7 @@
 				F361ED6725172E5900540B00 /* Actor.swift in Sources */,
 				51036A162511225B00C6E80B /* NetworkManager.swift in Sources */,
 				51036A252511243B00C6E80B /* Profile.swift in Sources */,
+				5189361C258CA0FD008478E0 /* Downsampler.swift in Sources */,
 				F3FF1BEB25191E1900DC51B0 /* ActorListViewModel.swift in Sources */,
 				510369EB25111BC200C6E80B /* HomeViewController.swift in Sources */,
 				F3919A8B2516008900D813C6 /* ButtonAnimations.swift in Sources */,

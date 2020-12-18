@@ -36,11 +36,12 @@ struct MovieViewModel {
     }()
     
     var moviePosterUrl: URL {
-        guard let url = URL(string: titleInfo.image.url) else { return URL(string: "")! }
+        guard let image = titleInfo.image?.url else { return URL(string: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMZ-kE94eLRVXkJaPCaO-2SJUcoPi7z5Hb7g&usqp=CAU")! }
+        guard let url = URL(string: image) else { return URL(string: "")! }
         return url
     }
     
-    var moviePosterImage: BoxBind<UIImage?> = BoxBind(nil)
+    var moviePosterImagePath: BoxBind<URL?> = BoxBind(nil)
     var isFavorite: BoxBind<Bool?> = BoxBind(nil)
     
     var movieTitle: String {
@@ -110,11 +111,11 @@ struct MovieViewModel {
     
     func getMoviePoster() {
         if (fileHandler.checkIfFileExists(id: id)) {
-            self.moviePosterImage.value = UIImage(contentsOfFile: fileHandler.getPathForImage(id: id).path)
+            self.moviePosterImagePath.value = fileHandler.getPathForImage(id: id)
         } else {
             networkManager.downloadMoviePoster(url: self.moviePosterUrl, id: self.id) { res, error in
                 if (error == .none) {
-                    self.moviePosterImage.value = UIImage(contentsOfFile: self.fileHandler.getPathForImage(id: self.id).path)
+                    self.moviePosterImagePath.value = self.fileHandler.getPathForImage(id: self.id)
                 }
             }
         }

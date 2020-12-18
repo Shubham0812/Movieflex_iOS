@@ -47,7 +47,7 @@ class MovieSearchViewCell: UITableViewCell, ComponentShimmers {
         
         self.selectionStyle = .none
         hideViews()
-
+        
         self.moviePosterImageView.setCornerRadius(radius: cornerRadius - 4)
         self.containerView.setCornerRadius(radius: cornerRadius)
         self.containerView.setShadow(shadowColor: UIColor.label, shadowOpacity: 0.25, shadowRadius: 10, offset: CGSize(width: 1, height: 1))
@@ -121,11 +121,12 @@ class MovieSearchViewCell: UITableViewCell, ComponentShimmers {
         self.ratingLabel.text = viewModel.movieRating
         
         DispatchQueue.global().async {
-            viewModel.moviePosterImage.bind {
+            viewModel.moviePosterImagePath.bind {
                 guard let posterImage = $0 else { return }
                 self.id = viewModel.id
                 DispatchQueue.main.async { [unowned self] in
-                    self.moviePosterImageView.image = posterImage
+                    let downsampledImage = Downsampler.downsample(imageAt: posterImage, to: self.moviePosterImageView.bounds.size)
+                    self.moviePosterImageView.image = downsampledImage
                     self.removeShimmer()
                     self.showViews()
                 }
