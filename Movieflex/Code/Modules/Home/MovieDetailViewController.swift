@@ -55,7 +55,7 @@ class MovieDetailViewController: UIViewController {
         viewModel.moviePosterImagePath.bind {
             guard let posterImage = $0 else { return }
             DispatchQueue.main.async { [unowned self] in
-                let downsampledImage = Downsampler.downsample(imageAt: posterImage, to: self.moviePosterImageView.bounds.size)
+                let downsampledImage = Downsampler.downsampleImage(imageURL: posterImage, frameSize: self.moviePosterImageView.bounds.size)
                 self.moviePosterImageView.image = downsampledImage
                             
             }
