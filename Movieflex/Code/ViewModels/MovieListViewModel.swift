@@ -65,24 +65,26 @@ struct MovieListViewModel {
     
     // MARK:- functions for the viewModel
     func getPopularMovieTitles(offset: Int, limit: Int) {
-        let moviesList = defaultsManager.getPopularTitlesList()
-        if (moviesList.isEmpty) {
-            // Fetch and store the titleIds if the app is run for the first time
-            fetchTitlesIfFavoritesNotSet(offset: offset, limit: limit, type: .popularMovies)
-        } else {
-            let titleIds = moviesList[offset..<limit]
-            self.fetchAndStoreTitles(titleIds: Array(titleIds), type: .popularMovies)
+        defaultsManager.getPopularTitlesList { moviesList in
+            if (moviesList.isEmpty) {
+                // Fetch and store the titleIds if the app is run for the first time
+                fetchTitlesIfFavoritesNotSet(offset: offset, limit: limit, type: .popularMovies)
+            } else {
+                let titleIds = moviesList[offset..<limit]
+                self.fetchAndStoreTitles(titleIds: Array(titleIds), type: .popularMovies)
+            }
         }
     }
     
     func getComingSoonTitles(offset: Int, limit: Int) {
-        let moviesList = defaultsManager.getComingSoonTitlesList()
-        if (moviesList.isEmpty) {
-            // Fetch and store the titleIds if the app is run for the first time
-            fetchTitlesIfFavoritesNotSet(offset: offset, limit: limit, type: .comingSoonMovies)
-        } else {
-            let titleIds = moviesList[offset..<limit]
-            self.fetchAndStoreTitles(titleIds: Array(titleIds), type: .comingSoonMovies)
+        defaultsManager.getComingSoonTitlesList() { moviesList in
+            if (moviesList.isEmpty) {
+                // Fetch and store the titleIds if the app is run for the first time
+                fetchTitlesIfFavoritesNotSet(offset: offset, limit: limit, type: .comingSoonMovies)
+            } else {
+                let titleIds = moviesList[offset..<limit]
+                self.fetchAndStoreTitles(titleIds: Array(titleIds), type: .comingSoonMovies)
+            }
         }
     }
     
@@ -91,9 +93,13 @@ struct MovieListViewModel {
             DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
                 var moviesList: [String] = [String]()
                 if (type == .comingSoonMovies) {
-                    moviesList = self.defaultsManager.getComingSoonTitlesList()
+                    self.defaultsManager.getComingSoonTitlesList { res in
+                        moviesList = res
+                    }
                 } else if (type == .popularMovies) {
-                    moviesList = self.defaultsManager.getPopularTitlesList()
+                    self.defaultsManager.getPopularTitlesList { res in
+                        moviesList = res
+                    }
                 }
                 if (!moviesList.isEmpty) {
                     let titleIds = moviesList[offset..<limit]
@@ -186,13 +192,14 @@ extension MovieListViewModel {
         offset = limit
         limit = limit + count
         self.popularMoviesOffset.value = (offset,limit)
-        let moviesList = defaultsManager.getPopularTitlesList()
-        let titleIds = moviesList[offset..<limit]
-        DispatchQueue.global().async {
-            self.networkManager.getTitlesMetaData(titleIds: Array(titleIds)) { res, error in
-                guard let titlesMetaData = res, var viewModels = self.popularMovies.value else { return }
-                viewModels.append(contentsOf: titlesMetaData.map { MovieViewModel(meta: $0) })
-                self.popularMovies.value = viewModels
+        defaultsManager.getPopularTitlesList { moviesList in
+            let titleIds = moviesList[offset..<limit]
+            DispatchQueue.global().async {
+                self.networkManager.getTitlesMetaData(titleIds: Array(titleIds)) { res, error in
+                    guard let titlesMetaData = res, var viewModels = self.popularMovies.value else { return }
+                    viewModels.append(contentsOf: titlesMetaData.map { MovieViewModel(meta: $0) })
+                    self.popularMovies.value = viewModels
+                }
             }
         }
     }
@@ -202,13 +209,14 @@ extension MovieListViewModel {
         offset = limit
         limit = limit + count
         self.comingSoonMoviesOffset.value = (offset,limit)
-        let moviesList = defaultsManager.getComingSoonTitlesList()
-        let titleIds = moviesList[offset..<limit]
-        DispatchQueue.global().async {
-            self.networkManager.getTitlesMetaData(titleIds: Array(titleIds)) { res, error in
-                guard let titlesMetaData = res, var viewModels = self.comingSoonMovies.value else { return }
-                viewModels.append(contentsOf: titlesMetaData.map { MovieViewModel(meta: $0) })
-                self.comingSoonMovies.value = viewModels
+        defaultsManager.getComingSoonTitlesList() { moviesList in
+            let titleIds = moviesList[offset..<limit]
+            DispatchQueue.global().async {
+                self.networkManager.getTitlesMetaData(titleIds: Array(titleIds)) { res, error in
+                    guard let titlesMetaData = res, var viewModels = self.comingSoonMovies.value else { return }
+                    viewModels.append(contentsOf: titlesMetaData.map { MovieViewModel(meta: $0) })
+                    self.comingSoonMovies.value = viewModels
+                }
             }
         }
     }

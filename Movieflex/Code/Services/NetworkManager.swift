@@ -29,7 +29,7 @@ enum APIs: URLRequestConvertible  {
     
     // MARK:- variables
     static let endpoint = URL(string: "https://imdb8.p.rapidapi.com")!
-    static let apiKey = "14ff73caa5msh0f564971b93e7f9p170b30jsn3c532fbc86cb"
+    static let apiKey = "fd9183555emsh65d14d3e7cb5569p1d5634jsn47afaac99508"
     static let apiHost = "imdb8.p.rapidapi.com"
     
     var path: String {

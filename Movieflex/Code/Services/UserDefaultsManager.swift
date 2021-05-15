@@ -11,14 +11,32 @@ import Foundation
 
 class UserDefaultsManager {    
     // MARK:- getter functions
-    func getPopularTitlesList() -> [String] {
-        guard let ids = UserDefaults.standard.array(forKey: "popularTitles") as? [String]  else { return [] }
-        return ids
+    func getPopularTitlesList(completion: @escaping([String]) -> ()){
+        if let ids = UserDefaults.standard.array(forKey: "popularTitles") as? [String] {
+            completion(ids)
+        }  else {
+            NetworkManager().getPopularTitles { res, error in
+                if (error == nil) {
+                    guard let titleIds = res else { return }
+                    self.setPopularTitlesList(titles: titleIds)
+                    completion(titleIds)
+                }
+            }
+        }
     }
     
-    func getComingSoonTitlesList() -> [String] {
-        guard let ids = UserDefaults.standard.array(forKey: "comingSoonTitles") as? [String]  else { return [] }
-        return ids
+    func getComingSoonTitlesList(completion: @escaping([String]) -> ()) {
+        if let ids = UserDefaults.standard.array(forKey: "comingSoonTitles") as? [String] {
+            completion(ids)
+        } else {
+            NetworkManager().getComingSoonTitles { res, error in
+                if (error == nil) {
+                    guard let titleIds = res else { return }
+                    self.setComingSoonitlesList(titles: titleIds)
+                    completion(titleIds)
+                }
+            }
+        }
     }
     
     func getFavorites(type: Favorites) -> [String] {
